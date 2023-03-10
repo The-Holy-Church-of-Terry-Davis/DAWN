@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace Dawn.Types;
 
 public class AppConfig
@@ -6,9 +8,9 @@ public class AppConfig
     public string RootDir { get; set; }
     public List<Mapping> Mappings { get; set; }
 
-    public AppConfig(string[] prefixes, List<Mapping> maps, string rootdir = "./")
+    public AppConfig(List<string> prefixes, List<Mapping> maps, string rootdir)
     {
-        Prefixes.AddRange(prefixes);
+        Prefixes = prefixes;
         RootDir = rootdir;
         Mappings = maps;
     }
