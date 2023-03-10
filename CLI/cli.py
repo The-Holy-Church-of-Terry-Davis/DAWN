@@ -35,16 +35,16 @@ def Create(val: str):
 
     if system().lower() == "windows":
         print(f"{color.CYAN}[-] Retrieving {DAWN}{color.CYAN}.exe{color.END}")
-        urllib.request.urlretrieve("https://github.com/The-Holy-Church-of-Terry-Davis/DAWN/releases/download/2023-3-9/Backend-Windows.exe", f"./{dir}/DAWN.exe")
+        urllib.request.urlretrieve("https://github.com/The-Holy-Church-of-Terry-Davis/DAWN/releases/download/2023-3-9/Backend-Windows.exe", f"{dir}/DAWN.exe")
         print(f"{color.GREEN}[✔] Retrieved {DAWN}{color.GREEN}.exe{color.END}")
     else:
         print(f"\n{color.BOLD}{color.RED}[!] *NIX is not available as of now, skipping backend download{color.END}\n")
 
     print(f"{color.CYAN}[-] Retrieving JSON config file]{color.END}")
-    urllib.request.urlretrieve("https://raw.githubusercontent.com/The-Holy-Church-of-Terry-Davis/DAWN/main/Backend/appconfig.json", f"./{dir}/appconfig.json")
+    urllib.request.urlretrieve("https://raw.githubusercontent.com/The-Holy-Church-of-Terry-Davis/DAWN/main/Backend/appconfig.json", f"{dir}/appconfig.json")
     print(f"{color.GREEN}[✔] Retrieved JSON config file{color.END}\n{color.CYAN}[-] Retrieving and making basic files{color.END}")
 
-    urllib.request.urlretrieve("https://cdn.nest.rip/uploads/e873f198-b389-45b5-8441-f2e578ec1418.png", f"./{dir}/{val}/logo.png")
+    urllib.request.urlretrieve("https://raw.githubusercontent.com/The-Holy-Church-of-Terry-Davis/DAWN/main/Docs/logo.png", f"{dir}/{val}/logo.png")
 
     Path(f"{dir}/{val}").mkdir()
 
