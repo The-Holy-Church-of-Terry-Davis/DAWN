@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "9m7Q93a0/HKg97RTkoVyZcIQAw4d5aeMbkUVLUc0PQrX2kq8Od3XmC6VOpIDnsXbJiZU8XhN+OTAT/tzpOfZpw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\sbrinton\\Dawn\\Backend\\Backend.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\sbrinton\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.3\\microsoft.netcore.app.ref.7.0.3.nupkg.sha512",
+    "C:\\Users\\sbrinton\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.3\\microsoft.windowsdesktop.app.ref.7.0.3.nupkg.sha512",
+    "C:\\Users\\sbrinton\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.3\\microsoft.netcore.app.host.win-x64.7.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
