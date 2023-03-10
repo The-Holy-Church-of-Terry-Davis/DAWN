@@ -24,6 +24,8 @@ public class WebServer
         this.conf = conf;
 
         listener.Start();
+        Thread t = new Thread(new ThreadStart(ServerHandle));
+        t.Start();
     }
 
     public void ServerHandle()
@@ -34,14 +36,18 @@ public class WebServer
             HttpListenerRequest req = ctx.Request;
             HttpListenerResponse resp = ctx.Response;
 
-            resp.ContentType = Solvers.ContentTypeSolver();
+            (byte[] buf, string ct) = ResolveMappings(req.Url?.AbsolutePath ?? "");
+            resp.ContentType = ct;
+            resp.ContentEncoding = System.Text.Encoding.UTF8;
+            resp.ContentLength64 = buf.LongLength;
+
+            resp.OutputStream.Write(buf, 0, buf.Length);
+            resp.Close();
         }
     }
 
-    public byte[] ResolveMappings(string req)
-    {
-        
-        
+    public (byte[], string) ResolveMappings(string req)
+    {   
         //try defaults which is the mappings
         foreach(Mapping mp in conf.Mappings)
         {
@@ -53,11 +59,17 @@ public class WebServer
 
             if(req == mp.request_path)
             {
-                return Builder.BuildHtmlResponse(mp.filename);
+                return (Builder.BuildHtmlResponse(mp.filename), Solvers.ContentTypeSolver(mp.filename.Split('.')[1]));
             }
         }
 
         //resort to trying to send a file
-        return Builder.BuildHtmlResponse(req);
+        if(req.EndsWith(".html"))
+        {
+            return (Builder.BuildHtmlResponse(conf.RootDir + req), Solvers.ContentTypeSolver(req?.Split('.')[1]));
+        }
+
+        req = req + ".html";
+        return (Builder.BuildHtmlResponse(conf.RootDir + req), Solvers.ContentTypeSolver(req?.Split('.')[1]));
     }
 }

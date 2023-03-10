@@ -1,3 +1,14 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("The WebServer doesn't work yet!");
-Task.Delay(2);
+﻿using Dawn.Types;
+using Dawn.Server;
+using Newtonsoft.Json;
+
+namespace Dawn;
+
+class Program
+{
+    public static void Main()
+    {
+        AppConfig? cfg = JsonConvert.DeserializeObject<AppConfig>(File.ReadAllText("./appconfig.json"));
+        WebServer srv = new WebServer(cfg ?? new(new string[1] { "" }, new(), "./"));
+    }
+}

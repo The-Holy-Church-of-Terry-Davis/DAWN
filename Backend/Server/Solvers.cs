@@ -2,7 +2,7 @@ namespace Dawn.Server;
 
 public static class Solvers
 {
-    public static string ContentTypeSolver(string extension)
+    public static string ContentTypeSolver(string? extension)
     {
         switch(extension)
         {
