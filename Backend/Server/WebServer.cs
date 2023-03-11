@@ -63,6 +63,12 @@ public class WebServer
             }
         }
 
+        //Check if unsepcified file exists
+        if(File.Exists(conf.RootDir + req))
+        {
+            return (Builder.BuildHtmlResponse(conf.RootDir + req), Solvers.ContentTypeSolver(req?.Split('.')[1]));
+        }
+
         //resort to trying to send a file
         if(req.EndsWith(".html"))
         {
