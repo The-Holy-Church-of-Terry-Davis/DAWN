@@ -7,7 +7,7 @@ def Create(val: str):
     os.mkdir(dir)
     os.chdir(dir)
     
-    urllib.request.urlretrieve("https://github.com/The-Holy-Church-of-Terry-Davis/DAWN/releases/download/2023-3-9.2/DAWN.exe", "DAWN.exe")
+    urllib.request.urlretrieve("https://github.com/The-Holy-Church-of-Terry-Davis/DAWN/releases/download/2023-3-10/DAWN.exe", "DAWN.exe")
     urllib.request.urlretrieve("https://raw.githubusercontent.com/The-Holy-Church-of-Terry-Davis/DAWN/main/Backend/appconfig.json", "appconfig.json")
     
     os.mkdir(val)
