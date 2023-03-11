@@ -2,6 +2,7 @@ import urllib.request
 from pathlib import Path
 import argparse
 from platform import system
+import json
 
 """
 Author(s): YendisFish, QAEZZ
@@ -40,9 +41,34 @@ def Create(val: str):
     else:
         print(f"\n{color.BOLD}{color.RED}[!] *NIX is not available as of now, skipping backend download{color.END}\n")
 
-    print(f"{color.CYAN}[-] Retrieving JSON config file]{color.END}")
-    urllib.request.urlretrieve("https://raw.githubusercontent.com/The-Holy-Church-of-Terry-Davis/DAWN/main/Backend/appconfig.json", f"{dir}/appconfig.json")
-    print(f"{color.GREEN}[✔] Retrieved JSON config file{color.END}\n{color.CYAN}[-] Retrieving and making basic files{color.END}")
+    print(f"{color.CYAN}[-] Making JSON config file{color.END}")
+    
+    appConfigContent = {
+        "Prefixes" : [ "http://localhost:8080/" ],
+        "RootDir" : f"./{val}/",
+        "Mappings" : [
+            {
+                "request_path" : "/",
+                "filename" : f"./{val}/index.html"
+            },
+            {
+                "request_path" : "",
+                "filename" : f"./{val}/index.html"
+            },
+            {
+                "request_path" : "/index",
+                "filename" : f"./{val}/index.html"
+            },
+            {
+                "request_path" : "/home",
+                "filename" : f"./{val}/index.html"
+            }
+        ]
+    }
+    f = open(f"./{dir}/appconfig.json", "w")
+    f.write(json.dumps(appConfigContent, indent=2))
+
+    print(f"{color.GREEN}[✔] Made JSON config file{color.END}\n{color.CYAN}[-] Retrieving and making basic files{color.END}")
 
 
     Path(f"{dir}/{val}").mkdir()
