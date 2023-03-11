@@ -36,9 +36,9 @@ public class WebServer
             HttpListenerRequest req = ctx.Request;
             HttpListenerResponse resp = ctx.Response;
 
-            (byte[] buf, string ct) = ResolveMappings(req.Url?.AbsolutePath ?? "");
+            (byte[] buf, (string ct, int encoding)) = ResolveMappings(req.Url?.AbsolutePath ?? "");
             resp.ContentType = ct;
-            resp.ContentEncoding = System.Text.Encoding.UTF8;
+            resp.ContentEncoding = Solvers.SolveEncoding(encoding);
             resp.ContentLength64 = buf.LongLength;
 
             resp.OutputStream.Write(buf, 0, buf.Length);
@@ -46,8 +46,16 @@ public class WebServer
         }
     }
 
-    public (byte[], string) ResolveMappings(string req)
-    {   
+    public (byte[], (string, int)) ResolveMappings(string req)
+    {
+        //make sure there is no null
+        if(req == null)
+        {
+            req = "index.html";
+        }
+
+        string newstr = req;
+
         //try defaults which is the mappings
         foreach(Mapping mp in conf.Mappings)
         {
@@ -57,25 +65,22 @@ public class WebServer
                 mp.request_path = '/' + mp.request_path;
             }
 
-            if(req == mp.request_path)
+            if(newstr == mp.request_path)
             {
-                return (Builder.BuildHtmlResponse(mp.filename), Solvers.ContentTypeSolver(mp.filename.Split('.')[1]));
+                (string t, int v) tp = Solvers.ContentTypeSolver(mp.filename.Split('.')[2]);
+                return (Builder.RetrieveFileResponse(mp.filename, tp.v), tp);
             }
         }
 
-        //Check if unsepcified file exists
-        if(File.Exists(conf.RootDir + req))
-        {
-            return (Builder.BuildHtmlResponse(conf.RootDir + req), Solvers.ContentTypeSolver(req?.Split('.')[1]));
-        }
+        (string t, int v) tp2 = Solvers.ContentTypeSolver(newstr.Split('.')[1]);
 
         //resort to trying to send a file
-        if(req.EndsWith(".html"))
+        if(newstr.EndsWith(".html") || File.Exists(conf.RootDir + newstr))
         {
-            return (Builder.BuildHtmlResponse(conf.RootDir + req), Solvers.ContentTypeSolver(req?.Split('.')[1]));
+            return (Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.v), tp2);
         }
 
-        req = req + ".html";
-        return (Builder.BuildHtmlResponse(conf.RootDir + req), Solvers.ContentTypeSolver(req?.Split('.')[1]));
+        newstr = newstr + ".html";
+        return (Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.v), tp2);
     }
 }
