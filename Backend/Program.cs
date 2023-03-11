@@ -6,7 +6,7 @@ namespace Dawn;
 
 class Program
 {
-    public static void Main()
+    public static async Task Main()
     {
         AppConfig? cfg = JsonConvert.DeserializeObject<AppConfig?>(File.ReadAllText("./appconfig.json"));
         WebServer srv = new WebServer(cfg ?? new(new(1), new(), "./"));
