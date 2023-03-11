@@ -20,7 +20,7 @@ public class AppConfig
         if(!rootdir.EndsWith('/')) rootdir = rootdir + '/';
 
         List<string> ps = new();
-        ps.Add("http://localhost:8080");
+        ps.Add("http://localhost:8080/");
 
         List<Mapping> maps = new();
         maps.Add(new Mapping("/index", rootdir + "index2.html"));

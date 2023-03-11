@@ -33,7 +33,7 @@ public class CliManger
                             File.WriteAllText("./appconfig.json", JsonConvert.SerializeObject(AppConfig.GetDefaultAppConfig(args[i + 1])));
 
                             HttpClient cli = new HttpClient();
-                            byte[] buf = await cli.GetByteArrayAsync("https://github.com/The-Holy-Church-of-Terry-Davis/DAWN/releases/tag/2023-3-11.2/DAWN.exe");
+                            byte[] buf = await cli.GetByteArrayAsync("https://github.com/The-Holy-Church-of-Terry-Davis/DAWN/releases/download/2023-3-11.3/DAWN.exe");
 
                             FileStream fs = File.Create("DAWN.exe");
                             await fs.WriteAsync(buf, 0, buf.Length);
