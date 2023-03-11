@@ -17,6 +17,10 @@
         {
             "request_path" : "/home",
             "filename" : "./TestApp/index.html"
+        },
+        {
+            "request_path" : "/index2",
+            "filename" : "./TestApp/index2.html"
         }
     ]
 }
