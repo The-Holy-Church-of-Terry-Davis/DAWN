@@ -16,6 +16,11 @@ public static class Solvers
                 return "text/javascript";
             }
 
+            case "css":
+            {
+                return "text/css";
+            }
+
             default:
             {
                 return "text/html";
