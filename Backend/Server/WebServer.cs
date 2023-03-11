@@ -75,11 +75,12 @@ public class WebServer
         (string t, int v) tp2 = Solvers.ContentTypeSolver(newstr.Split('.')[1]);
 
         //resort to trying to send a file
-        if(newstr.EndsWith(".html") || File.Exists(conf.RootDir + newstr))
+        if(File.Exists(conf.RootDir + newstr))
         {
             return (Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.v), tp2);
         }
 
+        //if all else failes it tries to parse the request into an existing html filename
         newstr = newstr + ".html";
         return (Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.v), tp2);
     }
