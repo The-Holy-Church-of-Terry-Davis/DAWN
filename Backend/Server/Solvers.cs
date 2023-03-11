@@ -228,9 +228,9 @@ public static class Solvers
 
 
             //Text
-            case "txt":
+            case "html": case "htm":
             {
-                return "text/plain";
+                return "text/html";
             }
 
             case "js":
@@ -250,7 +250,7 @@ public static class Solvers
 
             default:
             {
-                return "text/html";
+                return "text/plain";
             }
         }
     }
