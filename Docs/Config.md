@@ -13,7 +13,8 @@ accepting incoming connections.
 ```
 
 The next key value pair in the config is the root
-directory value.
+directory value. The root directory is the directory
+where your HTML is.
 
 ```json
 { 

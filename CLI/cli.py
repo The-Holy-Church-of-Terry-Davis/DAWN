@@ -4,10 +4,10 @@ import argparse
 from platform import system
 
 """
-Author(s): Yendy, QAEZZ
+Author(s): YendisFish, QAEZZ
 PYPI Packages: None
 Description:
-    Simple config file...
+    CLI configuration script for DAWN
 """
 
 
@@ -35,7 +35,7 @@ def Create(val: str):
 
     if system().lower() == "windows":
         print(f"{color.CYAN}[-] Retrieving {DAWN}{color.CYAN}.exe{color.END}")
-        urllib.request.urlretrieve("https://github.com/The-Holy-Church-of-Terry-Davis/DAWN/releases/download/2023-3-9/Backend-Windows.exe", f"{dir}/DAWN.exe")
+        urllib.request.urlretrieve("https://github.com/The-Holy-Church-of-Terry-Davis/DAWN/releases/download/2023-3-11.4/DAWN.exe", f"{dir}/DAWN.exe")
         print(f"{color.GREEN}[✔] Retrieved {DAWN}{color.GREEN}.exe{color.END}")
     else:
         print(f"\n{color.BOLD}{color.RED}[!] *NIX is not available as of now, skipping backend download{color.END}\n")
