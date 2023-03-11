@@ -6,6 +6,7 @@
 
 DELETE.html
 TEST
+.vscode
 
 # User-specific files
 *.rsuser
