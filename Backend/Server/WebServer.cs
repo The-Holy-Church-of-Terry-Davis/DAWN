@@ -28,7 +28,7 @@ public class WebServer
         }
 
         this.conf = conf;
-
+        
         Logger.Write("Starting lisenter", "task");
         listener.Start();
         Logger.Write("Listenter started", "success");
