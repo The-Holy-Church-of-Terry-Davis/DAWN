@@ -10,9 +10,7 @@ class Program
 {
     public static void Main()
     {
-        Log RootLogger = new Log("logs", "DAWN.log");
         Log Logger = new Log("logs", "DAWN.Program.cs.log");
-        RootLogger.Write("Made logger for program.cs", "info");
 
         Logger.Write("Prepping DAWN", "task");
         Logger.Write("Deserializing \"appconfig.json\"", "task");

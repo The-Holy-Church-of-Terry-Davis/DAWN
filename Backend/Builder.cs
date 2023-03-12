@@ -1,11 +1,15 @@
 using System.Text;
+using Dawn.Logger;
 
 namespace Dawn;
 
 public static class Builder
 {
+    
     public static byte[] RetrieveFileResponse(string? filename, int encoding)
     {
+        Log Logger = new Log("logs", "DAWN.Builder.cs.log");
+
         try
         {
             switch(encoding)
@@ -26,9 +30,9 @@ public static class Builder
                     return Encoding.UTF8.GetBytes(File.ReadAllText(filename ?? throw new Exception("Could not find file!")));
                 }
             }
-        } catch(Exception ex)
+        } catch(Exception)
         {
-            Console.WriteLine(ex.Message);
+            Logger.Write($"Could not find file, \"{filename}\"", "warn");
         }
 
         return new byte[5];

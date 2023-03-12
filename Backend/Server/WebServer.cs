@@ -11,13 +11,10 @@ public class WebServer
     public HttpListener listener = new();
     public AppConfig conf { get; set; }
 
-    Log RootLogger = new Log("logs", "DAWN.log", false);
     Log Logger = new Log("logs", "DAWN.WebServer.cs.log");
 
     public WebServer(AppConfig conf)
     {
-        
-        RootLogger.Write("Made logger for WebServer.cs", "info");
         foreach(string prefix in conf.Prefixes)
         {
             Logger.Write("Adding prefixes to the listener", "task");
@@ -113,7 +110,9 @@ public class WebServer
             }
 
             //if all else failes it tries to parse the request into an existing html filename
-            newstr = newstr + ".html";
+            if ( newstr?[1..] != null) {
+                newstr = newstr[1..];   
+            }
             return (Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.v), tp2);
         } catch (Exception) {
             Logger.Write($"404: Could not find DAWN app, \"{newstr}\"", "error");
