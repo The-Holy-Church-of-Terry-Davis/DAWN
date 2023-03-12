@@ -31,7 +31,7 @@ public static class Constants
                           :~  ^!?Y5PGPPY7^ .!:     
                       ^^:.  :75PGGGGGGGGGPJ:  .:^^ 
                       .::: ^?Y5555555555555Y: :::. 
-                     .  !?JJJJJJJJJJJJJJJ7  .
+                        .  !?JJJJJJJJJJJJJJJ7  .
                      .:^^:.!7777777777777777!.::::.";
     public const int boxLen = 72;
 
