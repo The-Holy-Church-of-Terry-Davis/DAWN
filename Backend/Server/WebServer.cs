@@ -110,7 +110,7 @@ public class WebServer
             newstr = newstr + ".html";
             return (Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.v), tp2);
         } catch (Exception) {
-            Logger.Write($"Could not find DAWN app, \"{newstr}\"", "error");
+            Logger.Write($"404: Could not find DAWN app, \"{newstr}\"", "error");
             if (File.Exists(conf.RootDir + "/error/404.html")) {
                 return (Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), ("text/html", 2));
             }
