@@ -17,4 +17,6 @@ Includes logging, app info, etc.
 
 - [ ] Start looking into HTTPS support for DAWN (I don't know too much about HTTPS but I know SSL is a pain in the ass) I'm thinking of maybe just not doing this though; my reasoning being that we could encourage using a reverse proxy like ingress to drop SSL certs in front of DAWN applications which makes more sense anyways. But that also discourages people who just want to set up a simple website from using DAWN
 
+- [ ] Add status codes when returning a file. 404 for 404 page, 200 for OK, you get it...
+
 - [ ] ~~Add stormy to the repo so he can help us do our skid shit~~ (Doesn't want to join and then bitches about wanting to join but then says doesnt want to join)
