@@ -6,6 +6,10 @@ frontend of the webserver is written in Dart. Dart also
 will help take care of deploying new DAWN applications.
 
 
+**Screenshot**
+Includes logging, app info, etc.
+<img src="https://cdn.discordapp.com/attachments/1084018888825634857/1084410168256774175/image.png"/>
+
 ## TODO 
 - [x] CLI file does work properly when actually creating the files, however, the config file is static and therefore doesn't conform to user input... meaning if i do ./cli.py test then it wont be able to find the HTML because it won't put it in test/TestApp but instead test/test. We may have to use some JSON libs in python to edit the mappings and rootdir... or we could set those to be static at "TestApp". But I think it would be better just to edit them programmatically, its more intuitive.
 
