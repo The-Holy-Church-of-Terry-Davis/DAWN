@@ -13,7 +13,12 @@ public class Log
         DirName = dname;
         FileName = fname;
         PathName = $"{DirName}/{FileName}";
-        if ( overwrite is true ) {
+
+        Directory.CreateDirectory("./" + dname);
+        File.Create("./" + Path.Join(dname, fname)).Close();
+
+        if(overwrite) 
+        {
             File.WriteAllText(PathName, $"[{DateTime.UtcNow} UTC] : [?] START OF LOG FOR {FileName}\n");
         }
     }
