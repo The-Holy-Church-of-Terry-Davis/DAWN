@@ -1,5 +1,5 @@
 { 
-    "Prefixes" : [ "http://localhost:8080/" ],
+    "Prefixes" : [ "http://*:8080/" ],
     "RootDir" : "./TestApp/",
     "Mappings" : [ 
         {

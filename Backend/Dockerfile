@@ -9,14 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS build
 WORKDIR /src
 COPY ["Backend.csproj", "Dawn/"]
 RUN dotnet restore "Dawn/Backend.csproj"
-COPY . .
+COPY . ./Dawn
 WORKDIR /src/Dawn
-RUN dotnet build "Dawn/Backend.csproj" -c Release -o /app/build
-
-FROM build AS publish
-RUN dotnet publish "Dawn/Backend.csproj" -c Release --runtime alpine-x64 --self-contained -o /app/publish
-
-# Publish
-FROM base AS final
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Backend.dll"]
+RUN dotnet build "Backend.csproj" -c Release -o /app/build
+ENTRYPOINT [ "dotnet", "run" ]
