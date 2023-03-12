@@ -39,7 +39,7 @@ def Create(val: str):
         urllib.request.urlretrieve("https://github.com/The-Holy-Church-of-Terry-Davis/DAWN/releases/download/2023-3-11.4/DAWN.exe", f"{dir}/DAWN.exe")
         print(f"{color.GREEN}[✔] Retrieved {DAWN}{color.GREEN}.exe{color.END}")
     else:
-        print(f"\n{color.BOLD}{color.RED}[!] *NIX is not available as of now, skipping backend download{color.END}\n")
+        print(f"\n{color.BOLD}{color.RED}[X] *NIX is not available as of now, skipping backend download{color.END}\n")
 
     print(f"{color.CYAN}[-] Making JSON config file{color.END}")
     

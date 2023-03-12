@@ -1,5 +1,6 @@
 ﻿using Dawn.Types;
 using Dawn.Server;
+using Dawn.Logger;
 using Dawn.Decorators;
 using Newtonsoft.Json;
 
@@ -9,12 +10,12 @@ class Program
 {
     public static void Main()
     {
-        Console.WriteLine($"{Colors.setColor(ConsoleColor.Cyan)}[-] Prepping DAWN");
-        Console.WriteLine($"{Colors.setColor(ConsoleColor.Cyan)}[-] Deserializing \"appconfig.json\"");
+        Log.Task("Prepping DAWN");
+        Log.Task("Deserializing \"appconfig.json\"");
 
         AppConfig? cfg = JsonConvert.DeserializeObject<AppConfig?>(File.ReadAllText("./appconfig.json"));
 
-        Console.WriteLine($"{Colors.setColor(ConsoleColor.Green)}[{Constants.tick}] Deserialized \"appconfig.json\"");
+        Log.Success("Deserialized \"appconfig.json\"");
 
         WebServer srv = new WebServer(cfg ?? new(new(1), new(), "./"));
 

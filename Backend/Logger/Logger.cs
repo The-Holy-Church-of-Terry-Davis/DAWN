@@ -1,31 +1,12 @@
 namespace Dawn.Logger;
 
-public class Logger
-{
-    public LoggerContext ctx { get; set; }
+public class Logger {
 
-    public Logger(LoggerContext context)
-    {
-        ctx = context;
-    }
-
-    public void Append(string text)
-    {
-        if(ctx.SaveLogs ?? false)
+    public static void LogToFile(string message) {
+        using (StreamWriter w = File.AppendText("DAWN.log"))
         {
-            File.WriteAllText(ctx.filename ?? "./log.txt", text);
+            string time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            w.WriteLine($"{time} {message}");
         }
-    }
-}
-
-public class LoggerContext
-{
-    public string? filename { get; set; }
-    public bool? SaveLogs { get; set; }
-
-    public LoggerContext(string fname, bool sl)
-    {
-        filename = fname;
-        SaveLogs = sl;
     }
 }

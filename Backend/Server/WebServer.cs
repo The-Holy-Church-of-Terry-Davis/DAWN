@@ -1,6 +1,7 @@
 using System.Net;
 using Dawn.Types;
 using Dawn.Decorators;
+using Dawn.Logger;
 using Dawn;
 
 namespace Dawn.Server;
@@ -14,8 +15,9 @@ public class WebServer
     {
         foreach(string prefix in conf.Prefixes)
         {
+            Log.Task("Adding prefixes to the listener");
             listener.Prefixes.Add(prefix);
-            Console.WriteLine($"{Colors.setColor(ConsoleColor.Green)}[\u2713] Added, \"{prefix}\" to the listener");
+            Log.Success($"Added, \"{prefix}\" prefix to the listener");
         }
 
         if(!conf.RootDir.EndsWith('/'))
@@ -25,11 +27,19 @@ public class WebServer
 
         this.conf = conf;
 
+        Log.Task("Starting lisenter");
+
         listener.Start();
+
+        Log.Success("Listenter started");
+
         Thread t = new Thread(new ThreadStart(ServerHandle));
-        Console.WriteLine($"{Colors.setColor(ConsoleColor.Cyan)}[-] Starting thread");
+
+        Log.Task("Starting thread");
+
         t.Start();
-        Console.WriteLine($"{Colors.setColor(ConsoleColor.Green)}[\u2713] Thread started");
+
+        Log.Success("Thread started");
     }
 
     public void ServerHandle()
@@ -52,9 +62,11 @@ public class WebServer
 
     public (byte[], (string, int)) ResolveMappings(string req)
     {
+        Log.Info("ResolveMappings called");
         //make sure there is no null
         if(req == null)
         {
+            Log.Warn("null recieved, returning index.html");
             req = "index.html";
         }
 
