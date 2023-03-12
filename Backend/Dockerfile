@@ -10,7 +10,7 @@ WORKDIR /src
 COPY ["Backend.csproj", "Dawn/"]
 RUN dotnet restore "Dawn/Backend.csproj"
 COPY . .
-WORKDIR /src/ProjectTracker/Server
+WORKDIR /src/Dawn
 RUN dotnet build "Dawn/Backend.csproj" -c Release -o /app/build
 
 FROM build AS publish

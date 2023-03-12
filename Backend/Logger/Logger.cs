@@ -1,12 +1,17 @@
 namespace Dawn.Logger;
 
-public class Logger {
+public class Logger 
+{
+    public string FileName { get; set; }
 
-    public static void LogToFile(string message) {
-        using (StreamWriter w = File.AppendText("DAWN.log"))
-        {
-            string time = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-            w.WriteLine($"{time} {message}");
-        }
+    public Logger(string fname)
+    {
+        FileName = fname;
+    }
+
+    public void LogToFile(string message)
+    {
+        DateTime now = DateTime.UtcNow;
+        File.WriteAllText(FileName, $"[{now.ToString()}] : {message}");
     }
 }

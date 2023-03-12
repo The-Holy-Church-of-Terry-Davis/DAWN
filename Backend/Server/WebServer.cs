@@ -15,9 +15,9 @@ public class WebServer
     {
         foreach(string prefix in conf.Prefixes)
         {
-            Log.Task("Adding prefixes to the listener");
+            //Log.Task("Adding prefixes to the listener");
             listener.Prefixes.Add(prefix);
-            Log.Success($"Added, \"{prefix}\" prefix to the listener");
+            //Log.Success($"Added, \"{prefix}\" prefix to the listener");
         }
 
         if(!conf.RootDir.EndsWith('/'))
@@ -27,19 +27,14 @@ public class WebServer
 
         this.conf = conf;
 
-        Log.Task("Starting lisenter");
-
+        //Log.Task("Starting lisenter");
         listener.Start();
-
-        Log.Success("Listenter started");
+        //Log.Success("Listenter started");
 
         Thread t = new Thread(new ThreadStart(ServerHandle));
-
-        Log.Task("Starting thread");
-
+        //Log.Task("Starting thread");
         t.Start();
-
-        Log.Success("Thread started");
+        //Log.Success("Thread started");
     }
 
     public void ServerHandle()
@@ -62,11 +57,11 @@ public class WebServer
 
     public (byte[], (string, int)) ResolveMappings(string req)
     {
-        Log.Info("ResolveMappings called");
+        //Log.Info("ResolveMappings called");
         //make sure there is no null
         if(req == null)
         {
-            Log.Warn("null recieved, returning index.html");
+            //Log.Warn("null recieved, returning index.html");
             req = "index.html";
         }
 
