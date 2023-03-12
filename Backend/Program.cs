@@ -10,12 +10,16 @@ class Program
 {
     public static void Main()
     {
-        Log.Task("Prepping DAWN");
-        Log.Task("Deserializing \"appconfig.json\"");
+        Log RootLogger = new Log("logs", "DAWN.log");
+        Log Logger = new Log("logs", "DAWN.Program.cs.log");
+        RootLogger.Write("Made logger for program.cs", "info");
+
+        Logger.Write("Prepping DAWN", "task");
+        Logger.Write("Deserializing \"appconfig.json\"", "task");
 
         AppConfig? cfg = JsonConvert.DeserializeObject<AppConfig?>(File.ReadAllText("./appconfig.json"));
 
-        Log.Success("Deserialized \"appconfig.json\"");
+        Logger.Write("Deserialized \"appconfig.json\"", "success");
 
         WebServer srv = new WebServer(cfg ?? new(new(1), new(), "./"));
 

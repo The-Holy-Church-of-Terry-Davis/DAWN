@@ -1,17 +1,52 @@
+using Dawn.Decorators;
+
 namespace Dawn.Logger;
 
-public class Logger 
+public class Log
 {
+    public string DirName { get; set; }
     public string FileName { get; set; }
+    public string PathName { get; set; }
 
-    public Logger(string fname)
+    public Log(string dname, string fname, bool overwrite = true)
     {
+        DirName = dname;
         FileName = fname;
+        PathName = $"{DirName}/{FileName}";
+        if ( overwrite is true ) {
+            File.WriteAllText(PathName, $"[{DateTime.UtcNow} UTC] : [?] START OF LOG FOR {FileName}\n");
+        }
     }
 
-    public void LogToFile(string message)
+    public void Write(string message, string logLevel)
     {
+        switch (logLevel.ToLower()) {
+            case "info":
+                message = $"[?] {message}";
+                Console.WriteLine($"{Colors.setColor(ConsoleColor.Blue)}{message}");
+                break;
+            case "task":
+                message = $"[-] {message}";
+                Console.WriteLine($"{Colors.setColor(ConsoleColor.Cyan)}{message}");
+                break;
+            case "warn":
+                message = $"[!] {message}";
+                Console.WriteLine($"{Colors.setColor(ConsoleColor.Yellow)}{message}");
+                break;
+            case "error":
+                message = $"[X] {message}";
+                Console.WriteLine($"{Colors.setColor(ConsoleColor.Red)}{message}");
+                break;
+            case "success":
+                message = $"[{Constants.tick}] {message}";
+                Console.WriteLine($"{Colors.setColor(ConsoleColor.Green)}{message}");
+                break;
+            default:
+                Console.WriteLine($"{Colors.setColor(ConsoleColor.Magenta)}{message}");
+                break;
+        }
+        Console.ForegroundColor = ConsoleColor.White;
         DateTime now = DateTime.UtcNow;
-        File.WriteAllText(FileName, $"[{now.ToString()}] : {message}");
+        File.AppendAllText(PathName, $"[{now.ToString()} UTC] : {message}\n");
     }
 }

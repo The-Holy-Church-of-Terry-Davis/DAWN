@@ -11,13 +11,18 @@ public class WebServer
     public HttpListener listener = new();
     public AppConfig conf { get; set; }
 
+    Log RootLogger = new Log("logs", "DAWN.log", false);
+    Log Logger = new Log("logs", "DAWN.WebServer.cs.log");
+
     public WebServer(AppConfig conf)
     {
+        
+        RootLogger.Write("Made logger for WebServer.cs", "info");
         foreach(string prefix in conf.Prefixes)
         {
-            //Log.Task("Adding prefixes to the listener");
+            Logger.Write("Adding prefixes to the listener", "task");
             listener.Prefixes.Add(prefix);
-            //Log.Success($"Added, \"{prefix}\" prefix to the listener");
+            Logger.Write($"Added, \"{prefix}\" prefix to the listener", "success");
         }
 
         if(!conf.RootDir.EndsWith('/'))
@@ -27,14 +32,14 @@ public class WebServer
 
         this.conf = conf;
 
-        //Log.Task("Starting lisenter");
+        Logger.Write("Starting lisenter", "task");
         listener.Start();
-        //Log.Success("Listenter started");
+        Logger.Write("Listenter started", "success");
 
         Thread t = new Thread(new ThreadStart(ServerHandle));
-        //Log.Task("Starting thread");
+        Logger.Write("Starting thread", "task");
         t.Start();
-        //Log.Success("Thread started");
+        Logger.Write("Thread started", "success");
     }
 
     public void ServerHandle()
@@ -57,11 +62,11 @@ public class WebServer
 
     public (byte[], (string, int)) ResolveMappings(string req)
     {
-        //Log.Info("ResolveMappings called");
+        Logger.Write("ResolveMappings called", "info");
         //make sure there is no null
         if(req == null)
         {
-            //Log.Warn("null recieved, returning index.html");
+            Logger.Write("null recieved, returning index.html", "warn");
             req = "index.html";
         }
 
