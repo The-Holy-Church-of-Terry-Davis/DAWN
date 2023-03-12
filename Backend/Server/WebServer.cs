@@ -97,12 +97,18 @@ public class WebServer
         }
 
         try {
+            if (newstr == null) {
+                Logger.Write("null was requested", "warn");
+            } else {
+                Logger.Write($"\"{newstr}\" was requested", "task");
+            }
             (string t, int v) tp2 = Solvers.ContentTypeSolver(newstr?.Split('.')[1]);
 
 
             //resort to trying to send a file
-            if(File.Exists(conf.RootDir + newstr))
+            if(File.Exists(conf.RootDir + newstr?[1..])) // added [1..] because without it would be: ./RootDir//file.extension. Now it is: ./RootDir/file.extension
             {
+                Logger.Write($"Fetched {conf.RootDir + newstr?[1..]}", "success");
                 return (Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.v), tp2);
             }
 
