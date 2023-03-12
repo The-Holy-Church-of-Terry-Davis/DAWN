@@ -1,4 +1,4 @@
-namespace Dawn.Colors;
+namespace Dawn.Decorators;
 
 public class Colors
 {

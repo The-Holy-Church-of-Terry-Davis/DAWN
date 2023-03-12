@@ -1,6 +1,6 @@
 ﻿using Dawn.Types;
 using Dawn.Server;
-using Dawn.Colors;
+using Dawn.Decorators;
 using Newtonsoft.Json;
 
 namespace Dawn;
@@ -24,66 +24,22 @@ class Program
     }
     public static void Main()
     {
-        ConsoleColor YELLOW = ConsoleColor.Yellow;
-        ConsoleColor BLUE = ConsoleColor.Blue;
-        ConsoleColor PURPLE = ConsoleColor.DarkMagenta;
-        ConsoleColor END = ConsoleColor.White;
-
-        ConsoleColor INFO = ConsoleColor.Cyan;
-        ConsoleColor SUCCESS = ConsoleColor.Green;
-
-        string tick = "\u2713";
-
-
-        string DAWN = @"
-                        ▄▄▄    ▄▄   ▄   ▄  ▄▄  ▄  
-                        █  █  █▄▄█  █ █ █  █ █ █ 
-                        ▀▀▀   ▀  ▀   ▀ ▀   ▀  ▀▀ ";
-        
-        Console.WriteLine($"{Colors.Colors.setColor(INFO)}[-] Prepping DAWN");
-
-        Console.WriteLine($"{Colors.Colors.setColor(INFO)}[-] Deserializing \"appconfig.json\"");
+        Console.WriteLine($"{Colors.setColor(ConsoleColor.Cyan)}[-] Prepping DAWN");
+        Console.WriteLine($"{Colors.setColor(ConsoleColor.Cyan)}[-] Deserializing \"appconfig.json\"");
 
         AppConfig? cfg = JsonConvert.DeserializeObject<AppConfig?>(File.ReadAllText("./appconfig.json"));
 
-        Console.WriteLine($"{Colors.Colors.setColor(SUCCESS)}[{tick}] Deserialized \"appconfig.json\"");
+        Console.WriteLine($"{Colors.setColor(ConsoleColor.Green)}[{Constants.tick}] Deserialized \"appconfig.json\"");
 
         WebServer srv = new WebServer(cfg ?? new(new(1), new(), "./"));
 
-        Console.Write($@"{Colors.Colors.setColor(YELLOW)}
-  
-                             .^    !~    ^         
-                              7!   !~   !7         
-                         ~!.   ^ ..::.. ^   :!~    
-                          :~  ^!?Y5PGPPY7^ .!:     
-                      ^^:.  :75PGGGGGGGGGPJ:  .:^^ 
-                      .::: ^?Y5555555555555Y: :::. 
-                     .  !?JJJJJJJJJJJJJJJ7  .
-                     .:^^:.!7777777777777777!.::::.");
-        Console.Write($"{Colors.Colors.setColor(BLUE)}{DAWN}");
+        Console.Write(Constants.Logo);
+        Console.Write($"{Colors.setColor(ConsoleColor.Blue)}{Constants.DAWN}");
 
-        //string rd = "./apoisdhioashdoashdiaosasdasdawdawdawdadasdfdasdid/";
-        string? rd = cfg?.RootDir;
+        string rd = cfg?.RootDir ?? AppConfig.GetDefaultAppConfig("./").RootDir;
+        string nameline = Builder.BuildNameLine(Constants.boxLen, rd, "║       - Root Directory : ");
 
-        string table = $@"
-╔══════════════════════════════════════════════════════════════════════╗
-║                                                                      ║
-║   [{tick}] DAWN app started                                               ║
-║                                                                      ║
-║   Network Information                                                ║
-║       - Local   :   http://localhost:8080                            ║
-║       - Network :   --unavailable for security reasons               ║
-║                                                                      ║
-║   DAWN Information                                                   ║
-║       - GH Repo        :                                             ║
-║          https://github.com/The-Holy-Church-of-Terry-Davis/DAWN      ║
-║                                                                      ║
-║       - Root Directory : {whitespaceCounter(rd!.Length, rd)}║
-║                                                                      ║
-║       DAWN is still under development, expect bugs                   ║
-║                                                                      ║
-╚══════════════════════════════════════════════════════════════════════╝";
-        Console.Write($"{Colors.Colors.setColor(PURPLE)}{table}\nLogs:\n");
-        Colors.Colors.setColor(END);
+        Console.WriteLine($"{Colors.setColor(ConsoleColor.DarkMagenta)}{Constants.table + "\n" + nameline + Constants.second}\nLogs:");
+        Colors.setColor(ConsoleColor.White);
     }
 }

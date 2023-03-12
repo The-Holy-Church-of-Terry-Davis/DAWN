@@ -1,6 +1,6 @@
 using System.Net;
 using Dawn.Types;
-using Dawn.Colors;
+using Dawn.Decorators;
 using Dawn;
 
 namespace Dawn.Server;
@@ -15,7 +15,7 @@ public class WebServer
         foreach(string prefix in conf.Prefixes)
         {
             listener.Prefixes.Add(prefix);
-            Console.WriteLine($"{Colors.Colors.setColor(ConsoleColor.Green)}[\u2713] Added, \"{prefix}\" to the listener");
+            Console.WriteLine($"{Colors.setColor(ConsoleColor.Green)}[\u2713] Added, \"{prefix}\" to the listener");
         }
 
         if(!conf.RootDir.EndsWith('/'))
@@ -27,9 +27,9 @@ public class WebServer
 
         listener.Start();
         Thread t = new Thread(new ThreadStart(ServerHandle));
-        Console.WriteLine($"{Colors.Colors.setColor(ConsoleColor.Cyan)}[-] Starting thread");
+        Console.WriteLine($"{Colors.setColor(ConsoleColor.Cyan)}[-] Starting thread");
         t.Start();
-        Console.WriteLine($"{Colors.Colors.setColor(ConsoleColor.Green)}[\u2713] Thread started");
+        Console.WriteLine($"{Colors.setColor(ConsoleColor.Green)}[\u2713] Thread started");
     }
 
     public void ServerHandle()
