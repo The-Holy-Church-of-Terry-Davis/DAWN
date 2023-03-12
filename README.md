@@ -19,6 +19,4 @@ Includes logging, app info, etc.
 
 - [ ] Add status codes when returning a file. 404 for 404 page, 200 for OK, you get it...
 
-- [ ] Add support for parameters.
-
 - [ ] ~~Add stormy to the repo so he can help us do our skid shit~~ (Doesn't want to join and then bitches about wanting to join but then says doesnt want to join)
