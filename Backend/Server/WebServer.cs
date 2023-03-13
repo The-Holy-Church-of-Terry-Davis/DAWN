@@ -67,7 +67,6 @@ public class WebServer
 
     public WebServerResponseInfo ResolveMappings(string req)
     {
-
         //make sure there is no null
         if(req == null)
         {
@@ -90,6 +89,24 @@ public class WebServer
 
             if(newstr == mp.request_path)
             {
+                //Check restrictions
+                for(int i = 0; i < rconf.restrictions.Count;)
+                {
+                    if(rconf.CanAccess(mp.filename))
+                    {
+                        break;
+                    }
+
+                    if (File.Exists(conf.RootDir + "/error/404.html")) 
+                    {
+                        return new(Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), new("text/html", 2), 404);
+                    }
+                    else 
+                    {
+                        return new(Builder.RetrieveFileResponse(conf.RootDir + "/index.html", 2), new("text/html", 2), 404);
+                    }
+                }
+
                 Logger.Write($"Route, \"{newstr}\" requested", "task");
                 SolverContentCtx tp = Solvers.ContentTypeSolver(mp.filename.Split('.')[2]);
                 Logger.Write($"Served \"{newstr}\" as \"{mp.filename}\"", "success");
@@ -99,6 +116,9 @@ public class WebServer
 
         try 
         {
+            //Check restrictions in other contexts
+
+
             if (newstr == null) {
                 Logger.Write("null was requested", "warn");
             } else {
@@ -106,12 +126,15 @@ public class WebServer
             }
             SolverContentCtx tp2 = Solvers.ContentTypeSolver(newstr?.Split('.')[1]);
 
-
             //resort to trying to send a file
             if(File.Exists(conf.RootDir + newstr?[1..])) // added [1..] because without it would be: ./RootDir//file.extension. Now it is: ./RootDir/file.extension
             {
-                Logger.Write($"Fetched {conf.RootDir + newstr?[1..]}", "success");
-                return new(Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.buildertype), tp2, 200);
+                //check restrictions against file if it exists
+                if(rconf.CanAccess(conf.RootDir + newstr?[1..]))
+                {
+                    Logger.Write($"Fetched {conf.RootDir + newstr?[1..]}", "success");
+                    return new(Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.buildertype), tp2, 200);
+                }
             }
 
             //if all else failes it tries to parse the request into an existing html filename
@@ -119,7 +142,21 @@ public class WebServer
             {
                 newstr = newstr[1..];
             }
-            return new(Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.buildertype), tp2, 200);
+
+            //Check restrictions under last resort return
+           if(rconf.CanAccess(conf.RootDir + newstr))
+           {
+                return new(Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.buildertype), tp2, 200);
+           } else {
+                if (File.Exists(conf.RootDir + "/error/404.html")) 
+                {
+                    return new(Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), new("text/html", 2), 404);
+                }
+                else
+                {
+                    return new(Builder.RetrieveFileResponse(conf.RootDir + "/index.html", 2), new("text/html", 2), 404);
+                }
+           }
         } catch (Exception) 
         {
             Logger.Write($"404: Could not find DAWN app, \"{newstr}\"", "error");
@@ -127,7 +164,8 @@ public class WebServer
             {
                 return new(Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), new("text/html", 2), 404);
             }
-            else {
+            else 
+            {
                 return new(Builder.RetrieveFileResponse(conf.RootDir + "/index.html", 2), new("text/html", 2), 404);
                 // if they dont have an index.html, then they shouldnt be doing web dev
             }
