@@ -10,11 +10,14 @@ public class WebServer
 {
     public HttpListener listener = new();
     public AppConfig conf { get; set; }
+    public RestrictionConfig rconf { get; set; }
 
     Log Logger = new Log("logs", "DAWN.WebServer.cs.log");
 
-    public WebServer(AppConfig conf)
+    public WebServer(AppConfig conf, RestrictionConfig r)
     {
+        rconf = r;
+
         foreach(string prefix in conf.Prefixes)
         {
             Logger.Write("Adding prefixes to the listener", "task");
@@ -51,17 +54,18 @@ public class WebServer
             HttpListenerRequest req = ctx.Request;
             HttpListenerResponse resp = ctx.Response;
 
-            (byte[] buf, (string ct, int encoding)) = ResolveMappings(req.Url?.AbsolutePath ?? "");
-            resp.ContentType = ct;
-            resp.ContentEncoding = Solvers.SolveEncoding(encoding);
-            resp.ContentLength64 = buf.LongLength;
+            WebServerResponseInfo rinf = ResolveMappings(req.Url?.AbsolutePath ?? "");
+            resp.ContentType = rinf.ctx.contenttype;
+            resp.ContentEncoding = Solvers.SolveEncoding(rinf.ctx.buildertype);
+            resp.ContentLength64 = rinf.data.LongLength;
+            resp.StatusCode = rinf.code;
 
-            resp.OutputStream.Write(buf, 0, buf.Length);
+            resp.OutputStream.Write(rinf.data, 0, rinf.data.Length);
             resp.Close();
         }
     }
 
-    public (byte[], (string, int)) ResolveMappings(string req)
+    public WebServerResponseInfo ResolveMappings(string req)
     {
 
         //make sure there is no null
@@ -87,40 +91,44 @@ public class WebServer
             if(newstr == mp.request_path)
             {
                 Logger.Write($"Route, \"{newstr}\" requested", "task");
-                (string t, int v) tp = Solvers.ContentTypeSolver(mp.filename.Split('.')[2]);
+                SolverContentCtx tp = Solvers.ContentTypeSolver(mp.filename.Split('.')[2]);
                 Logger.Write($"Served \"{newstr}\" as \"{mp.filename}\"", "success");
-                return (Builder.RetrieveFileResponse(mp.filename, tp.v), tp);
+                return new(Builder.RetrieveFileResponse(mp.filename, tp.buildertype), tp, 200);
             }
         }
 
-        try {
+        try 
+        {
             if (newstr == null) {
                 Logger.Write("null was requested", "warn");
             } else {
                 Logger.Write($"\"{newstr}\" was requested", "task");
             }
-            (string t, int v) tp2 = Solvers.ContentTypeSolver(newstr?.Split('.')[1]);
+            SolverContentCtx tp2 = Solvers.ContentTypeSolver(newstr?.Split('.')[1]);
 
 
             //resort to trying to send a file
             if(File.Exists(conf.RootDir + newstr?[1..])) // added [1..] because without it would be: ./RootDir//file.extension. Now it is: ./RootDir/file.extension
             {
                 Logger.Write($"Fetched {conf.RootDir + newstr?[1..]}", "success");
-                return (Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.v), tp2);
+                return new(Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.buildertype), tp2, 200);
             }
 
             //if all else failes it tries to parse the request into an existing html filename
-            if ( newstr?[1..] != null) {
-                newstr = newstr[1..];   
+            if ( newstr?[1..] != null) 
+            {
+                newstr = newstr[1..];
             }
-            return (Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.v), tp2);
-        } catch (Exception) {
+            return new(Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.buildertype), tp2, 200);
+        } catch (Exception) 
+        {
             Logger.Write($"404: Could not find DAWN app, \"{newstr}\"", "error");
-            if (File.Exists(conf.RootDir + "/error/404.html")) {
-                return (Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), ("text/html", 2));
+            if (File.Exists(conf.RootDir + "/error/404.html")) 
+            {
+                return new(Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), new("text/html", 2), 404);
             }
             else {
-                return (Builder.RetrieveFileResponse(conf.RootDir + "/index.html", 2), ("text/html", 2));
+                return new(Builder.RetrieveFileResponse(conf.RootDir + "/index.html", 2), new("text/html", 2), 404);
                 // if they dont have an index.html, then they shouldnt be doing web dev
             }
         }

@@ -1,6 +1,8 @@
 import urllib.request
 from pathlib import Path
 import argparse
+import os
+import docker
 from platform import system
 import json
 
@@ -25,6 +27,10 @@ class color:
 
 DAWN = f"{color.BOLD}{color.YELLOW}D{color.RED}A{color.BLUE}W{color.PURPLE}N{color.END}"
 
+def Deploy(dir_path: str):
+    client = docker.from_env()
+    client.images.build(dir_path)
+    return
 
 def Create(val: str):
     dir = str("./" + val)
@@ -82,7 +88,12 @@ def Create(val: str):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("create", help="Creates a DAWN app")
+parser.add_argument("deploy", help="Deploys a docker container from a specified file")
 args = parser.parse_args()
+
+if args.deploy:
+    Deploy(args.deploy)
+    print(f"{color.CYAN}[-] Deploying {DAWN}{color.CYAN} project, \"{args.create}\"{color.END}")
 
 if args.create:
     print(f"{color.CYAN}[-] Creating {DAWN}{color.CYAN} project, \"{args.create}\"{color.END}")
