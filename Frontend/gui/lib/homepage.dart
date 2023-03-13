@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
         });
       },
       style: OutlinedButton.styleFrom(
-          minimumSize: const Size(225, 45),
+          minimumSize: Size(MediaQuery.of(context).size.width / 2 - 17, 45),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
             side: const BorderSide(
@@ -88,7 +88,10 @@ class _HomePageState extends State<HomePage> {
         ),
         buttonMethod(),
         const Padding(padding: EdgeInsets.only(top: 10)),
-        logArea(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: logArea(),
+        ),
         const Spacer(), // moves the create button to the bottom
         createButton(),
       ]),
@@ -99,7 +102,7 @@ class _HomePageState extends State<HomePage> {
   Container logArea() {
     return Container(
       height: 150,
-      width: 445,
+      width: double.maxFinite,
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.white,
