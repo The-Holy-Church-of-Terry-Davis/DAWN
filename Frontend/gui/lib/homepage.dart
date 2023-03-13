@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
         buttonMethod(),
         const Padding(padding: EdgeInsets.only(top: 10)),
         logArea(),
-        //const Spacer(), // moves the create button to the bottom
+        const Spacer(), // moves the create button to the bottom
         createButton(),
       ]),
       backgroundColor: const Color.fromARGB(255, 20, 20, 20),
