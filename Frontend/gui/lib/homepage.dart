@@ -1,4 +1,9 @@
+import 'dart:io';
+import 'dart:convert';
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 /*
 TO-DO
@@ -8,6 +13,24 @@ Update cli.py to take in args and write to a log
 make the log area actually read from a file and display its contents
 
 */
+
+String _read(String fileName) {
+  String text;
+  try {
+    //String path = "${Directory.current.path}/$fileName";
+    String path = "./$fileName";
+    final File file = File('$path)');
+    text = file.readAsStringSync();
+  } catch (e) {
+    text = "Couldn't read file: $e";
+    print(text);
+  }
+  return text;
+}
+
+String getFileContent(String fileName) {
+  return _read(fileName = fileName);
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -92,7 +115,7 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: logArea(),
         ),
-        //const Spacer(), // moves the create button to the bottom
+        const Spacer(), // moves the create button to the bottom
         createButton(),
       ]),
       backgroundColor: const Color.fromARGB(255, 20, 20, 20),
@@ -101,7 +124,7 @@ class _HomePageState extends State<HomePage> {
 
   Container logArea() {
     return Container(
-      height: 150,
+      height: MediaQuery.of(context).size.height - 300,
       width: double.maxFinite,
       decoration: BoxDecoration(
         border: Border.all(
@@ -113,8 +136,9 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(10),
         scrollDirection: Axis.vertical,
         child: Text(
+          getFileContent("test.txt"),
           // ignore: prefer_interpolation_to_compose_strings
-          "Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, ",
+          //"Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, Log text here, ",
           style: TextStyle(
             color: Colors.grey.shade700,
           ),
