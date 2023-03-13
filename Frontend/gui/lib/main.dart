@@ -12,8 +12,8 @@ void main() {
     setWindowMaxSize(const Size(600, 600));
     setWindowMinSize(const Size(500, 500));
 
-    double width = window.physicalSize.width;
-    double height = window.physicalSize.height;
+    //double width = window.physicalSize.width;
+    //double height = window.physicalSize.height;
 
     //Rect frame = Offset(width / 2 + 150, height / 2) & const Size(1.0, 1.0);
     //setWindowFrame(frame);
