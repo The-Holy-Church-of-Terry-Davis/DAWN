@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: logArea(),
         ),
-        const Spacer(), // moves the create button to the bottom
+        //const Spacer(), // moves the create button to the bottom
         createButton(),
       ]),
       backgroundColor: const Color.fromARGB(255, 20, 20, 20),
@@ -157,7 +157,7 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
       child: TextButton(
         style: TextButton.styleFrom(
-          minimumSize: const Size(500, 50),
+          minimumSize: const Size(double.maxFinite, 50),
           backgroundColor: Colors.green.shade900,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
