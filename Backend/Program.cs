@@ -19,7 +19,10 @@ class Program
 
         Logger.Write("Deserialized \"appconfig.json\"", "success");
 
-        WebServer srv = new WebServer(cfg ?? new(new(1), new(), "./"));
+        List<Restriction> restrictions = new();
+        restrictions.Add(new Restriction(RestrictionType.FILE, RestrictionCondition.SUBREQUEST, fname: "", uri: ""));
+
+        WebServer srv = new WebServer(cfg ?? new(new(1), new(), "./"), new(restrictions));
 
         Console.Write(Constants.Logo);
         Console.Write($"{Colors.setColor(ConsoleColor.Blue)}{Constants.DAWN}");

@@ -10,11 +10,14 @@ public class WebServer
 {
     public HttpListener listener = new();
     public AppConfig conf { get; set; }
+    public RestrictionConfig rconf { get; set; }
 
     Log Logger = new Log("logs", "DAWN.WebServer.cs.log");
 
-    public WebServer(AppConfig conf)
+    public WebServer(AppConfig conf, RestrictionConfig r)
     {
+        rconf = r;
+
         foreach(string prefix in conf.Prefixes)
         {
             Logger.Write("Adding prefixes to the listener", "task");
