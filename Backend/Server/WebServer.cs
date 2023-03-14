@@ -14,6 +14,7 @@ public class WebServer
     public AppConfig conf { get; set; }
     public RestrictionConfig rconf { get; set; }
     public SSLConfig? sslconf { get; set; }
+    public List<string> AuthenticatedAddrs = new();
 
     Log Logger = new Log("logs", "DAWN.WebServer.cs.log");
 
