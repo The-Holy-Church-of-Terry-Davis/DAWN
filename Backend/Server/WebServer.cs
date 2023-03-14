@@ -3,6 +3,8 @@ using Dawn.Types;
 using Dawn.Decorators;
 using Dawn.Logger;
 using Dawn;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography;
 
 namespace Dawn.Server;
 
@@ -11,10 +13,11 @@ public class WebServer
     public HttpListener listener = new();
     public AppConfig conf { get; set; }
     public RestrictionConfig rconf { get; set; }
+    public SSLConfig? sslconf { get; set; }
 
     Log Logger = new Log("logs", "DAWN.WebServer.cs.log");
 
-    public WebServer(AppConfig conf, RestrictionConfig r)
+    public WebServer(AppConfig conf, RestrictionConfig r, SSLConfig sslcfg)
     {
         rconf = r;
 
@@ -31,6 +34,7 @@ public class WebServer
         }
 
         this.conf = conf;
+        sslconf = sslcfg;
         
         Logger.Write("Starting lisenter", "task");
         listener.Start();
@@ -63,6 +67,20 @@ public class WebServer
             resp.OutputStream.Write(rinf.data, 0, rinf.data.Length);
             resp.Close();
         }
+    }
+
+    public void ResolveSSL(HttpListenerContext ctx)
+    {
+        HttpListenerRequest req = ctx.Request;
+        HttpListenerResponse resp = ctx.Response;
+
+        X509Certificate2 cert = new(sslconf!.filename);
+        RSACryptoServiceProvider pubKey = (RSACryptoServiceProvider)cert.GetRSAPublicKey()!;
+
+        resp.ContentType = "application/x-x509-ca-cert";
+        resp.AddHeader("Content-Disposition", "attachment; filename=certificate.crt");
+        resp.OutputStream.Write(cert.Export(X509ContentType.Cert), 0, cert.Export(X509ContentType.Cert).Length);
+        resp.Close();
     }
 
     public WebServerResponseInfo ResolveMappings(string req)
