@@ -1,11 +1,6 @@
 using System.Net;
 using Dawn.Types;
-using Dawn.Authentication;
-using Dawn.Decorators;
 using Dawn.Logger;
-using Dawn;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Cryptography;
 
 namespace Dawn.Server;
 
@@ -14,12 +9,9 @@ internal class WebServer
     private HttpListener listener = new();
     public AppConfig conf { get; set; }
     public RestrictionConfig rconf { get; set; }
-    public SSLConfig? sslconf { get; set; }
-    private List<AuthenticationBearer> AuthenticatedAddrs = new();
-
     Log Logger = new Log("logs", "DAWN.WebServer.cs.log");
 
-    internal WebServer(AppConfig conf, RestrictionConfig r, SSLConfig sslcfg)
+    internal WebServer(AppConfig conf, RestrictionConfig r)
     {
         rconf = r;
 
@@ -36,8 +28,7 @@ internal class WebServer
         }
 
         this.conf = conf;
-        sslconf = sslcfg;
-        
+
         Logger.Write("Starting lisenter", LogLevel.TASK);
         listener.Start();
         Logger.Write("Listenter started", LogLevel.SUCCESS);
@@ -58,68 +49,18 @@ internal class WebServer
         {
             HttpListenerContext ctx = listener.GetContext();
             
-            foreach(AuthenticationBearer bearer in AuthenticatedAddrs)
-            {
-                if(ctx.Request.RemoteEndPoint.Address.ToString() == bearer.IP)
-                {
-                    HttpListenerRequest req = ctx.Request;
-                    HttpListenerResponse resp = ctx.Response;
+            HttpListenerRequest req = ctx.Request;
+            HttpListenerResponse resp = ctx.Response;
 
-                    WebServerResponseInfo rinf = ResolveMappings(req.Url?.AbsolutePath ?? "");
-                    resp.ContentType = rinf.ctx.contenttype;
-                    resp.ContentEncoding = Solvers.SolveEncoding(rinf.ctx.buildertype);
-                    resp.ContentLength64 = rinf.data.LongLength;
-                    resp.StatusCode = rinf.code;
+            WebServerResponseInfo rinf = ResolveMappings(req.Url?.AbsolutePath ?? "");
+            resp.ContentType = rinf.ctx.contenttype;
+            resp.ContentEncoding = Solvers.SolveEncoding(rinf.ctx.buildertype);
+            resp.ContentLength64 = rinf.data.LongLength;
+            resp.StatusCode = rinf.code;
 
-                    resp.OutputStream.Write(rinf.data, 0, rinf.data.Length);
-                    resp.Close();     
-                }
-            }
-
-            //ResolveSSL(ctx);
-            Authenticate(ctx);
+            resp.OutputStream.Write(rinf.data, 0, rinf.data.Length);
+            resp.Close();
         }
-    }
-
-    internal void Authenticate(HttpListenerContext ctx)
-    {
-        byte[] key = KeyGenerators.GenerateAuthBearerKey();
-        AuthenticationBearer bearer = new AuthenticationBearer(key, ctx.Request.RemoteEndPoint.Address.ToString());
-        AuthenticatedAddrs.Add(bearer);
-
-        HttpListenerResponse resp = ctx.Response;
-        resp.ContentType = "text/plain";
-        resp.ContentEncoding = System.Text.Encoding.UTF8;
-        resp.ContentLength64 = key.LongLength;
-        resp.StatusCode = 200;
-
-        resp.OutputStream.Write(key, 0, key.Length);
-    }
-
-    internal void ResolveSSL(HttpListenerContext ctx)
-    {
-        HttpListenerRequest req = ctx.Request;
-        HttpListenerResponse resp = ctx.Response;
-
-        X509Certificate2 cert = new(sslconf!.filename);
-        RSACryptoServiceProvider pubKey = (RSACryptoServiceProvider)cert.GetRSAPublicKey()!;
-
-        resp.ContentType = "application/x-x509-ca-cert";
-        resp.AddHeader("Content-Disposition", "attachment; filename=certificate.crt");
-        resp.OutputStream.Write(cert.Export(X509ContentType.Cert), 0, cert.Export(X509ContentType.Cert).Length);
-        resp.Close();
-    }
-
-    internal void ResolveSSL(HttpListenerContext ctx, X509Certificate2 cert)
-    {
-        HttpListenerRequest req = ctx.Request;
-        HttpListenerResponse resp = ctx.Response;
-        RSACryptoServiceProvider pubKey = (RSACryptoServiceProvider)cert.GetRSAPublicKey()!;
-
-        resp.ContentType = "application/x-x509-ca-cert";
-        resp.AddHeader("Content-Disposition", "attachment; filename=certificate.crt");
-        resp.OutputStream.Write(cert.Export(X509ContentType.Cert), 0, cert.Export(X509ContentType.Cert).Length);
-        resp.Close();
     }
 
     internal WebServerResponseInfo ResolveMappings(string req)

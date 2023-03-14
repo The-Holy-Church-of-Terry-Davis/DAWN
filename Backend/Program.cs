@@ -23,7 +23,7 @@ class Program
         restrictions.Add(new Restriction(RestrictionType.FILE, fname: "./TestApp/", uri: null));
         restrictions.Add(new Restriction(RestrictionType.FILE, fname: "./TestApp/index.html", uri: null));
 
-        WebServer srv = new WebServer(cfg ?? new(new(1), new(), "./"), new(restrictions), null!);
+        WebServer srv = new WebServer(cfg ?? new(new(1), new(), "./"), new(restrictions));
 
         Console.Write(Constants.Logo);
         Console.Write($"{Colors.setColor(ConsoleColor.Blue)}{Constants.DAWN}");
