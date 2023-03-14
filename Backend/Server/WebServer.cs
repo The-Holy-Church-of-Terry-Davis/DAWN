@@ -102,10 +102,12 @@ public class WebServer
 
                 if (File.Exists(conf.RootDir + "/error/404.html")) 
                 {
+                    Logger.Write("404 error return", "error");
                     return new(Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), new("text/html", 2), 404);
                 }
                 else 
                 {
+                    Logger.Write("404 error return", "error");
                     return new(Builder.RetrieveFileResponse(conf.RootDir + "/index.html", 2), new("text/html", 2), 404);
                 }
             }
@@ -128,6 +130,22 @@ public class WebServer
                 {
                     Logger.Write($"Fetched {conf.RootDir + newstr?[1..]}", "success");
                     return new(Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.buildertype), tp2, 200);
+                } else if(!rconf.CanAccess(conf.RootDir + newstr?[1..]))
+                {
+                    Logger.Write("403 error return", "error");
+                    return new(System.Text.Encoding.UTF8.GetBytes("<p>Error 403</p>"), new("text/html", 2), 403);
+                }
+            } else if(!File.Exists(conf.RootDir + newstr?[1..]))
+            {
+                Logger.Write("404 error return", "error");
+
+                if (File.Exists(conf.RootDir + "/error/404.html")) 
+                {
+                    return new(Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), new("text/html", 2), 404);
+                }
+                else 
+                {
+                    return new(Builder.RetrieveFileResponse(conf.RootDir + "/index.html", 2), new("text/html", 2), 404);
                 }
             }
 
@@ -144,16 +162,19 @@ public class WebServer
            } else {
                 if(!rconf.CanAccess(conf.RootDir + newstr))
                 {
+                    Logger.Write("403 error return", "error");   
                     return new(System.Text.Encoding.UTF8.GetBytes("<p>Error 403</p>"), new("text/html", 2), 403);
                 }
 
                 if (File.Exists(conf.RootDir + "/error/404.html")) 
                 {
                     //CHECK IF USER CAN ACCESS SO WE CAN RETURN THE CORRECT CODE
+                    Logger.Write("404 error return", "error");
                     return new(Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), new("text/html", 2), 404);
                 }
                 else
                 {
+                    Logger.Write("You do not know what you are doing!", "error");
                     return new(Builder.RetrieveFileResponse(conf.RootDir + "/index.html", 2), new("text/html", 2), 404);
                 }
            }
@@ -162,7 +183,7 @@ public class WebServer
             Logger.Write($"404: Could not find DAWN app, \"{newstr}\"", "error");
             if (File.Exists(conf.RootDir + "/error/404.html")) 
             {
-                //CHECK IF USER CAN ACCESS SO WE CAN RETURN THE CORRECT CODE
+                Logger.Write("404 error return", "error");
                 return new(Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), new("text/html", 2), 404);
             }
             else 

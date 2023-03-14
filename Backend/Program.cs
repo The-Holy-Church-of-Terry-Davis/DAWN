@@ -20,7 +20,7 @@ class Program
         Logger.Write("Deserialized \"appconfig.json\"", "success");
 
         List<Restriction> restrictions = new();
-        restrictions.Add(new Restriction(RestrictionType.FILE, fname: "./TestApp/", uri: null));
+        //restrictions.Add(new Restriction(RestrictionType.FILE, fname: "./TestApp/", uri: null));
         restrictions.Add(new Restriction(RestrictionType.FILE, fname: "./TestApp/index.html", uri: null));
 
         WebServer srv = new WebServer(cfg ?? new(new(1), new(), "./"), new(restrictions));
