@@ -32,7 +32,7 @@ internal static class Builder
             }
         } catch(Exception)
         {
-            Logger.Write($"Could not find file, \"{filename}\"", "warn");
+            Logger.Write($"Could not find file, \"{filename}\"", LogLevel.WARN);
         }
 
         return new byte[5];
