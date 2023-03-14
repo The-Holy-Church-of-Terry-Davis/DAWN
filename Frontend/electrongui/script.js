@@ -3,11 +3,14 @@ let submitButton = document.getElementById("projNameButton");
 let projNameLabel = document.getElementById("projName");
 let projNameTextInput = document.getElementById("projNameTextInput");
 
-function resolveTextInput(element) {
-    return element.value;
+function getTextInput(element) { 
+    val = element.value.replace(/[^a-zA-Z0-9]/g, "").replace(/\s/g, "");
+    if (val == "") {
+        val = "MyDawnProject";
+    }
+    return val;
 }
 
 function updateProjNameLabel() {
-    projNameLabel.value = resolveTextInput(projNameTextInput);
-    console.log("updated projName");
+    projNameLabel.firstChild.data = getTextInput(projNameTextInput);
 }
