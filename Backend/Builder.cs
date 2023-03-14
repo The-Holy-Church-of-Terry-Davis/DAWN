@@ -3,10 +3,10 @@ using Dawn.Logger;
 
 namespace Dawn;
 
-public static class Builder
+internal static class Builder
 {
     
-    public static byte[] RetrieveFileResponse(string? filename, int encoding)
+    internal static byte[] RetrieveFileResponse(string? filename, int encoding)
     {
         Log Logger = new Log("logs", "DAWN.Builder.cs.log");
 
@@ -38,7 +38,7 @@ public static class Builder
         return new byte[5];
     }
 
-    public static string BuildNameLine(int boxlen, string name, string firststr)
+    internal static string BuildNameLine(int boxlen, string name, string firststr)
     {
         string combined = firststr + name;
         if(combined.Length >= boxlen)
