@@ -58,32 +58,42 @@ internal class WebServer
         {
             HttpListenerContext ctx = listener.GetContext();
             
-            if(ctx.Request.IsSecureConnection)
+            foreach(AuthenticationBearer bearer in AuthenticatedAddrs)
             {
-                /*
-                    ^^ The above code does not work
-                    and I do not know why... if anyone
-                    sees a fix please contact one of the
-                    maintainers of this project!!! We
-                    could use the help!
-                */
+                if(ctx.Request.RemoteEndPoint.Address.ToString() == bearer.IP)
+                {
+                    HttpListenerRequest req = ctx.Request;
+                    HttpListenerResponse resp = ctx.Response;
 
-                ResolveSSL(ctx); //I'm fairly sure this function works fine
-            } else 
-            {
-                HttpListenerRequest req = ctx.Request;
-                HttpListenerResponse resp = ctx.Response;
+                    WebServerResponseInfo rinf = ResolveMappings(req.Url?.AbsolutePath ?? "");
+                    resp.ContentType = rinf.ctx.contenttype;
+                    resp.ContentEncoding = Solvers.SolveEncoding(rinf.ctx.buildertype);
+                    resp.ContentLength64 = rinf.data.LongLength;
+                    resp.StatusCode = rinf.code;
 
-                WebServerResponseInfo rinf = ResolveMappings(req.Url?.AbsolutePath ?? "");
-                resp.ContentType = rinf.ctx.contenttype;
-                resp.ContentEncoding = Solvers.SolveEncoding(rinf.ctx.buildertype);
-                resp.ContentLength64 = rinf.data.LongLength;
-                resp.StatusCode = rinf.code;
-
-                resp.OutputStream.Write(rinf.data, 0, rinf.data.Length);
-                resp.Close();
+                    resp.OutputStream.Write(rinf.data, 0, rinf.data.Length);
+                    resp.Close();     
+                }
             }
+
+            //ResolveSSL(ctx);
+            Authenticate(ctx);
         }
+    }
+
+    internal void Authenticate(HttpListenerContext ctx)
+    {
+        byte[] key = KeyGenerators.GenerateAuthBearerKey();
+        AuthenticationBearer bearer = new AuthenticationBearer(key, ctx.Request.RemoteEndPoint.Address.ToString());
+        AuthenticatedAddrs.Add(bearer);
+
+        HttpListenerResponse resp = ctx.Response;
+        resp.ContentType = "text/plain";
+        resp.ContentEncoding = System.Text.Encoding.UTF8;
+        resp.ContentLength64 = key.LongLength;
+        resp.StatusCode = 200;
+
+        resp.OutputStream.Write(key, 0, key.Length);
     }
 
     internal void ResolveSSL(HttpListenerContext ctx)
@@ -92,6 +102,18 @@ internal class WebServer
         HttpListenerResponse resp = ctx.Response;
 
         X509Certificate2 cert = new(sslconf!.filename);
+        RSACryptoServiceProvider pubKey = (RSACryptoServiceProvider)cert.GetRSAPublicKey()!;
+
+        resp.ContentType = "application/x-x509-ca-cert";
+        resp.AddHeader("Content-Disposition", "attachment; filename=certificate.crt");
+        resp.OutputStream.Write(cert.Export(X509ContentType.Cert), 0, cert.Export(X509ContentType.Cert).Length);
+        resp.Close();
+    }
+
+    internal void ResolveSSL(HttpListenerContext ctx, X509Certificate2 cert)
+    {
+        HttpListenerRequest req = ctx.Request;
+        HttpListenerResponse resp = ctx.Response;
         RSACryptoServiceProvider pubKey = (RSACryptoServiceProvider)cert.GetRSAPublicKey()!;
 
         resp.ContentType = "application/x-x509-ca-cert";
