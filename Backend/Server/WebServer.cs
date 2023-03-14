@@ -1,5 +1,6 @@
 using System.Net;
 using Dawn.Types;
+using Dawn.Authentication;
 using Dawn.Decorators;
 using Dawn.Logger;
 using Dawn;
@@ -8,17 +9,17 @@ using System.Security.Cryptography;
 
 namespace Dawn.Server;
 
-public class WebServer
+internal class WebServer
 {
-    public HttpListener listener = new();
+    private HttpListener listener = new();
     public AppConfig conf { get; set; }
     public RestrictionConfig rconf { get; set; }
     public SSLConfig? sslconf { get; set; }
-    public List<string> AuthenticatedAddrs = new();
+    private List<AuthenticationBearer> AuthenticatedAddrs = new();
 
     Log Logger = new Log("logs", "DAWN.WebServer.cs.log");
 
-    public WebServer(AppConfig conf, RestrictionConfig r, SSLConfig sslcfg)
+    internal WebServer(AppConfig conf, RestrictionConfig r, SSLConfig sslcfg)
     {
         rconf = r;
 
@@ -51,7 +52,7 @@ public class WebServer
         Logger.Write($"Created, \"{conf.RootDir}\"", "success");
     }
 
-    public void ServerHandle()
+    internal void ServerHandle()
     {
         while(true)
         {
@@ -59,7 +60,15 @@ public class WebServer
             
             if(ctx.Request.IsSecureConnection)
             {
-                ResolveSSL(ctx);
+                /*
+                    ^^ The above code does not work
+                    and I do not know why... if anyone
+                    sees a fix please contact one of the
+                    maintainers of this project!!! We
+                    could use the help!
+                */
+
+                ResolveSSL(ctx); //I'm fairly sure this function works fine
             } else 
             {
                 HttpListenerRequest req = ctx.Request;
@@ -77,7 +86,7 @@ public class WebServer
         }
     }
 
-    public void ResolveSSL(HttpListenerContext ctx)
+    internal void ResolveSSL(HttpListenerContext ctx)
     {
         HttpListenerRequest req = ctx.Request;
         HttpListenerResponse resp = ctx.Response;
@@ -91,7 +100,7 @@ public class WebServer
         resp.Close();
     }
 
-    public WebServerResponseInfo ResolveMappings(string req)
+    internal WebServerResponseInfo ResolveMappings(string req)
     {
         //make sure there is no null
         if(req == null)

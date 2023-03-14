@@ -2,9 +2,9 @@ using System.Text;
 
 namespace Dawn.Server;
 
-public static class Solvers
+internal static class Solvers
 {
-    public static SolverContentCtx ContentTypeSolver(string? extension)
+    internal static SolverContentCtx ContentTypeSolver(string? extension)
     {
         switch(extension)
         {
@@ -262,7 +262,7 @@ public static class Solvers
         }
     }
 
-    public static Encoding? SolveEncoding(int indicator)
+    internal static Encoding? SolveEncoding(int indicator)
     {
         switch(indicator)
         {
