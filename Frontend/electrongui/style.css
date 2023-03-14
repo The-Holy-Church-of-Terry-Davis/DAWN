@@ -3,7 +3,10 @@
 
 :root {
     --bg: rgb(20, 20, 20);
+    --bg-light: rgb(30, 30, 30);
+    --bg-dark: rgb(15, 15, 15);
     --text: rgb(210, 210, 210);
+    --border: rgb(180, 180, 180);
 }
 
 body {
@@ -25,11 +28,40 @@ footer {
 }
 
 #projNameContainer {
-    border: .2px solid red;
-    padding: 1rem;
+    padding: 2%;
+    margin: 2%;
+    width: 90%;
 }
 
 #projNameTextInput {
-    width: 100%;
+    width: 75%;
+    height: 2rem;
+    border-radius: 10px;
+    padding: 0 .5rem;
+    font-size: larger;
+    color: var(--text);
+    
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border);
+}
+
+#projNameButton {
+    float: right;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    
+    width: 20%;
     height: 2rem;
 }
+
+#projNameDiv {
+    border: .5px dotted red;
+}
+
+/*
+CHAT:
+
+
+hello, kot...
+
+*/
