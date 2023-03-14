@@ -23,26 +23,26 @@ public class Log
         }
     }
 
-    public void Write(string message, string logLevel)
+    public void Write(string message, LogLevel logLevel)
     {
-        switch (logLevel.ToLower()) {
-            case "info":
+        switch (logLevel) {
+            case LogLevel.INFO:
                 message = $"[?] {message}";
                 Console.WriteLine($"{Colors.setColor(ConsoleColor.Blue)}{message}");
                 break;
-            case "task":
+            case LogLevel.TASK:
                 message = $"[-] {message}";
                 Console.WriteLine($"{Colors.setColor(ConsoleColor.Cyan)}{message}");
                 break;
-            case "warn":
+            case LogLevel.WARN:
                 message = $"[!] {message}";
                 Console.WriteLine($"{Colors.setColor(ConsoleColor.Yellow)}{message}");
                 break;
-            case "error":
+            case LogLevel.ERROR:
                 message = $"[X] {message}";
                 Console.WriteLine($"{Colors.setColor(ConsoleColor.Red)}{message}");
                 break;
-            case "success":
+            case LogLevel.SUCCESS:
                 message = $"[{Constants.tick}] {message}";
                 Console.WriteLine($"{Colors.setColor(ConsoleColor.Green)}{message}");
                 break;
@@ -54,4 +54,13 @@ public class Log
         DateTime now = DateTime.UtcNow;
         File.AppendAllText(PathName, $"[{now.ToString()} UTC] : {message}\n");
     }
+}
+
+public enum LogLevel
+{
+    INFO,
+    TASK,
+    WARN,
+    ERROR,
+    SUCCESS
 }

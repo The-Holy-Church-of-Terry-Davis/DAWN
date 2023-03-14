@@ -25,9 +25,9 @@ internal class WebServer
 
         foreach(string prefix in conf.Prefixes)
         {
-            Logger.Write("Adding prefixes to the listener", "task");
+            Logger.Write("Adding prefixes to the listener", LogLevel.TASK);
             listener.Prefixes.Add(prefix);
-            Logger.Write($"Added, \"{prefix}\" prefix to the listener", "success");
+            Logger.Write($"Added, \"{prefix}\" prefix to the listener", LogLevel.SUCCESS);
         }
 
         if(!conf.RootDir.EndsWith('/'))
@@ -38,18 +38,18 @@ internal class WebServer
         this.conf = conf;
         sslconf = sslcfg;
         
-        Logger.Write("Starting lisenter", "task");
+        Logger.Write("Starting lisenter", LogLevel.TASK);
         listener.Start();
-        Logger.Write("Listenter started", "success");
+        Logger.Write("Listenter started", LogLevel.SUCCESS);
 
         Thread t = new Thread(new ThreadStart(ServerHandle));
-        Logger.Write("Starting thread", "task");
+        Logger.Write("Starting thread", LogLevel.TASK);
         t.Start();
-        Logger.Write("Thread started", "success");
+        Logger.Write("Thread started", LogLevel.SUCCESS);
 
-        Logger.Write($"Creating, \"{conf.RootDir}\"", "task");
+        Logger.Write($"Creating, \"{conf.RootDir}\"", LogLevel.TASK);
         Directory.CreateDirectory(conf.RootDir);
-        Logger.Write($"Created, \"{conf.RootDir}\"", "success");
+        Logger.Write($"Created, \"{conf.RootDir}\"", LogLevel.SUCCESS);
     }
 
     internal void ServerHandle()
@@ -105,7 +105,7 @@ internal class WebServer
         //make sure there is no null
         if(req == null)
         {
-            Logger.Write("null recieved, returning index.html", "warn");
+            Logger.Write("null recieved, returning index.html", LogLevel.WARN);
             req = "index.html";
         }
 
@@ -126,9 +126,9 @@ internal class WebServer
             {
                 if(rconf.CanAccess(mp.filename))
                 {
-                    Logger.Write($"Route, \"{newstr}\" requested", "task");
+                    Logger.Write($"Route, \"{newstr}\" requested", LogLevel.TASK);
                     SolverContentCtx tp = Solvers.ContentTypeSolver(mp.filename.Split('.')[2]);
-                    Logger.Write($"Served \"{newstr}\" as \"{mp.filename}\"", "success");
+                    Logger.Write($"Served \"{newstr}\" as \"{mp.filename}\"", LogLevel.SUCCESS);
                     return new(Builder.RetrieveFileResponse(mp.filename, tp.buildertype), tp, 200);
                 } else if(!rconf.CanAccess(mp.filename))
                 {
@@ -137,12 +137,12 @@ internal class WebServer
 
                 if (File.Exists(conf.RootDir + "/error/404.html")) 
                 {
-                    Logger.Write("404 error return", "error");
+                    Logger.Write("404 error return", LogLevel.ERROR);
                     return new(Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), new("text/html", 2), 404);
                 }
                 else 
                 {
-                    Logger.Write("404 error return", "error");
+                    Logger.Write("404 error return", LogLevel.ERROR);
                     return new(Builder.RetrieveFileResponse(conf.RootDir + "/index.html", 2), new("text/html", 2), 404);
                 }
             }
@@ -151,9 +151,9 @@ internal class WebServer
         try 
         {
             if (newstr == null) {
-                Logger.Write("null was requested", "warn");
+                Logger.Write("null was requested", LogLevel.WARN);
             } else {
-                Logger.Write($"\"{newstr}\" was requested", "task");
+                Logger.Write($"\"{newstr}\" was requested", LogLevel.TASK);
             }
             SolverContentCtx tp2 = Solvers.ContentTypeSolver(newstr?.Split('.')[1]);
 
@@ -163,16 +163,16 @@ internal class WebServer
                 //check restrictions against file if it exists
                 if(rconf.CanAccess(conf.RootDir + newstr?[1..]))
                 {
-                    Logger.Write($"Fetched {conf.RootDir + newstr?[1..]}", "success");
+                    Logger.Write($"Fetched {conf.RootDir + newstr?[1..]}", LogLevel.SUCCESS);
                     return new(Builder.RetrieveFileResponse(conf.RootDir + newstr, tp2.buildertype), tp2, 200);
                 } else if(!rconf.CanAccess(conf.RootDir + newstr?[1..]))
                 {
-                    Logger.Write("403 error return", "error");
+                    Logger.Write("403 error return", LogLevel.ERROR);
                     return new(System.Text.Encoding.UTF8.GetBytes("<p>Error 403</p>"), new("text/html", 2), 403);
                 }
             } else if(!File.Exists(conf.RootDir + newstr?[1..]))
             {
-                Logger.Write("404 error return", "error");
+                Logger.Write("404 error return", LogLevel.ERROR);
 
                 if (File.Exists(conf.RootDir + "/error/404.html")) 
                 {
@@ -197,28 +197,28 @@ internal class WebServer
            } else {
                 if(!rconf.CanAccess(conf.RootDir + newstr))
                 {
-                    Logger.Write("403 error return", "error");   
+                    Logger.Write("403 error return", LogLevel.ERROR);   
                     return new(System.Text.Encoding.UTF8.GetBytes("<p>Error 403</p>"), new("text/html", 2), 403);
                 }
 
                 if (File.Exists(conf.RootDir + "/error/404.html")) 
                 {
                     //CHECK IF USER CAN ACCESS SO WE CAN RETURN THE CORRECT CODE
-                    Logger.Write("404 error return", "error");
+                    Logger.Write("404 error return", LogLevel.ERROR);
                     return new(Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), new("text/html", 2), 404);
                 }
                 else
                 {
-                    Logger.Write("You do not know what you are doing!", "error");
+                    Logger.Write("You do not know what you are doing!", LogLevel.ERROR);
                     return new(Builder.RetrieveFileResponse(conf.RootDir + "/index.html", 2), new("text/html", 2), 404);
                 }
            }
         } catch (Exception) 
         {
-            Logger.Write($"404: Could not find DAWN app, \"{newstr}\"", "error");
+            Logger.Write($"404: Could not find DAWN app, \"{newstr}\"", LogLevel.ERROR);
             if (File.Exists(conf.RootDir + "/error/404.html")) 
             {
-                Logger.Write("404 error return", "error");
+                Logger.Write("404 error return", LogLevel.ERROR);
                 return new(Builder.RetrieveFileResponse(conf.RootDir + "/error/404.html", 2), new("text/html", 2), 404);
             }
             else 

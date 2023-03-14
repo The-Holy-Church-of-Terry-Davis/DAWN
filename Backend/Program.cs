@@ -12,12 +12,12 @@ class Program
     {
         Log Logger = new Log("logs", "DAWN.Program.cs.log");
 
-        Logger.Write("Prepping DAWN", "task");
-        Logger.Write("Deserializing \"appconfig.json\"", "task");
+        Logger.Write("Prepping DAWN", LogLevel.TASK);
+        Logger.Write("Deserializing \"appconfig.json\"", LogLevel.TASK);
 
         AppConfig? cfg = JsonConvert.DeserializeObject<AppConfig?>(File.ReadAllText("./appconfig.json"));
 
-        Logger.Write("Deserialized \"appconfig.json\"", "success");
+        Logger.Write("Deserialized \"appconfig.json\"", LogLevel.SUCCESS);
 
         List<Restriction> restrictions = new();
         restrictions.Add(new Restriction(RestrictionType.FILE, fname: "./TestApp/", uri: null));
