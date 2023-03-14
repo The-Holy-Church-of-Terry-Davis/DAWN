@@ -25,9 +25,12 @@ public class RestrictionConfig
             if(inf1.FullName == inf2.FullName)
             {
                 return true;
-            } else 
+            }
+
+            //Try as directory info
+            if(new DirectoryInfo(filename.Remove(filename.LastIndexOf("/") + 1)).FullName == new DirectoryInfo(res.filename!).FullName)
             {
-                continue;
+                return true;
             }
         }
 
