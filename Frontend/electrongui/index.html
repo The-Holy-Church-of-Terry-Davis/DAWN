@@ -1,0 +1,20 @@
+<!--index.html-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <title>DAWN GUI</title>
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+
+    <footer>Node.js: <span id="node-version"></span> • Chromium: <span id="chrome-version"></span> • Electron: <span id="electron-version"></span></footer>
+
+    <!-- You can also require other files to run in this process -->
+    <script src="./renderer.js"></script>
+  </body>
+</html>

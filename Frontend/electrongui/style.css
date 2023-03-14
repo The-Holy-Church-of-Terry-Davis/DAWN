@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+:root {
+    --bg: rgb(20, 20, 20);
+    --text: rgb(210, 210, 210);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Ubuntu', sans-serif;
+}
+
+footer {
+    position: absolute;
+    bottom: 2%;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
