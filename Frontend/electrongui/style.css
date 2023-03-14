@@ -2,11 +2,15 @@
 /* Hello! */
 
 :root {
+    --bg-darker: rgb(5, 5, 5);
+    --bg-dark: rgb(15, 15, 15);
     --bg: rgb(20, 20, 20);
     --bg-light: rgb(30, 30, 30);
-    --bg-dark: rgb(15, 15, 15);
-    --text: rgb(210, 210, 210);
-    --border: rgb(180, 180, 180);
+    --bg-lighter: rgb(50, 50, 50);
+    --border: rgb(120, 120, 120);
+
+    --text: rgb(230, 230, 230);
+    --border: rgb(200, 200, 200);
 }
 
 body {
@@ -27,15 +31,41 @@ footer {
     text-align: center;
 }
 
+button {
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text);
+    border: 1px solid var(--border);
+    background-color: var(--bg-light);
+    
+    width: 20%;
+    height: 2.5rem;
+}
+
+button:active {
+    background-color: var(--bg-dark);
+}
+
+hr {
+    border: 1px solid var(--bg-lighter);
+    width: 93%;
+    margin-top: 3%;
+    margin-bottom: 6%;
+}
+
 #projNameContainer {
-    padding: 2%;
+    padding: .5rem;
     margin: 2%;
     width: 90%;
 }
 
+#projName {
+    line-height: 0;
+}
+
 #projNameTextInput {
     width: 75%;
-    height: 2rem;
+    height: 2.5rem;
     border-radius: 10px;
     padding: 0 .5rem;
     font-size: larger;
@@ -47,15 +77,48 @@ footer {
 
 #projNameButton {
     float: right;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    
-    width: 20%;
-    height: 2rem;
 }
 
 #projNameDiv {
-    border: .5px dotted red;
+    width: 100%;
+}
+
+#runningOSContainer {
+    padding: 0 2%;
+    margin: 0 2%;
+    width: 90%;
+}
+
+#runningOSLabel {
+    line-height: 0;
+}
+
+#runningOSContainer button[data-selected="true"] {
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text);
+    border: 1px solid var(--border);
+    background-color: var(--bg-light);
+    
+    width: 48%;
+    margin: 0 1%;
+    height: 2.5rem;
+}
+
+#runningOSContainer button[data-selected="false"] {
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text);
+    border: 1px solid var(--border);
+    background-color: var(--bg-dark);
+    
+    width: 48%;
+    margin: 0 1%;
+    height: 2.5rem;
+}
+
+#runningOSContainer button:active {
+    background-color: var(--bg-dark);
 }
 
 /*

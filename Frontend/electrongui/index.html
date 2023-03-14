@@ -15,8 +15,13 @@ Hello!
     <div id="projNameContainer">
       <h1 id="projName">MyDawnProject</h1>
       <div id="projNameDiv">
-        <input type="text" id="projNameTextInput" name="projNameTextInput"><span><button id="projNameButton" onclick="updateProjNameLabel()">Submit</button></span>
+        <input type="text" placeholder="Project Name:" id="projNameTextInput" name="projNameTextInput"><span><button id="projNameButton" onclick="updateProjNameLabel()">Submit</button></span>
       </div>
+    </div>
+    <hr />
+    <div id="runningOSContainer">
+      <h2 id="runningOSLabel">OS to run on: <span id="runningOS">Windows</span></h2>
+      <span><button id="osWindowsButton" onclick="runningOSSelect('Windows');" data-selected="true">Windows</button><button id="osLinuxButton" onclick="runningOSSelect('Linux');" data-selected="false">Linux</button></span>
     </div>
 
     <footer><strong>Node.js:</strong> <span id="node-version"></span> • <strong>Chromium:</strong> <span id="chrome-version"></span> • <strong>Electron:</strong> <span id="electron-version"></span></footer>
