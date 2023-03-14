@@ -47,6 +47,8 @@ class App(tk.Tk):
     
     def displayProjName(self):
         projNameString = projName.get().replace(" ", "")
+        if projNameString == "":
+            projNameString = "MyDawnProject"
         projNameLabel.configure(text=projNameString)
 
 
