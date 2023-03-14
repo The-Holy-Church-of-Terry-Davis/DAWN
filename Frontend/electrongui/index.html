@@ -10,9 +10,12 @@
     <title>DAWN GUI</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
+    <div id="projNameContainer">
+      <h1 id="projName">MyDawnProject</h1>
+      <input type="text" id="projNameTextInput" name="projNameTextInput">
+    </div>
 
-    <footer>Node.js: <span id="node-version"></span> • Chromium: <span id="chrome-version"></span> • Electron: <span id="electron-version"></span></footer>
+    <footer><strong>Node.js:</strong> <span id="node-version"></span> • <strong>Chromium:</strong> <span id="chrome-version"></span> • <strong>Electron:</strong> <span id="electron-version"></span></footer>
 
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
