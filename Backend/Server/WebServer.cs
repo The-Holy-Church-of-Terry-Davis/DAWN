@@ -55,17 +55,24 @@ public class WebServer
         while(true)
         {
             HttpListenerContext ctx = listener.GetContext();
-            HttpListenerRequest req = ctx.Request;
-            HttpListenerResponse resp = ctx.Response;
+            
+            if(ctx.Request.IsSecureConnection)
+            {
+                ResolveSSL(ctx);
+            } else 
+            {
+                HttpListenerRequest req = ctx.Request;
+                HttpListenerResponse resp = ctx.Response;
 
-            WebServerResponseInfo rinf = ResolveMappings(req.Url?.AbsolutePath ?? "");
-            resp.ContentType = rinf.ctx.contenttype;
-            resp.ContentEncoding = Solvers.SolveEncoding(rinf.ctx.buildertype);
-            resp.ContentLength64 = rinf.data.LongLength;
-            resp.StatusCode = rinf.code;
+                WebServerResponseInfo rinf = ResolveMappings(req.Url?.AbsolutePath ?? "");
+                resp.ContentType = rinf.ctx.contenttype;
+                resp.ContentEncoding = Solvers.SolveEncoding(rinf.ctx.buildertype);
+                resp.ContentLength64 = rinf.data.LongLength;
+                resp.StatusCode = rinf.code;
 
-            resp.OutputStream.Write(rinf.data, 0, rinf.data.Length);
-            resp.Close();
+                resp.OutputStream.Write(rinf.data, 0, rinf.data.Length);
+                resp.Close();
+            }
         }
     }
 
