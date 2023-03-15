@@ -19,6 +19,7 @@ const createWindow = () => {
     maximizable: false,
     resizable: false,
     closable: true,
+    icon: __dirname + "./logo.ico",
     webPreferences: {
       nodeIntegration: false, // is default value after Electron v5
       contextIsolation: true, // protect against prototype pollution
@@ -32,7 +33,7 @@ const createWindow = () => {
   mainWindow.loadFile('index.html')
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 }
 
 app.on("ready", createWindow);
