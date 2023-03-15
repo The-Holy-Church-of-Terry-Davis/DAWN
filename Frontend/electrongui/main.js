@@ -29,11 +29,11 @@ const createWindow = () => {
   })
 
   // and load the index.html of the app.
-  mainWindow.removeMenu()
-  mainWindow.loadFile('index.html')
+  mainWindow.removeMenu();
+  mainWindow.loadFile('index.html');
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools();
 }
 
 app.on("ready", createWindow);

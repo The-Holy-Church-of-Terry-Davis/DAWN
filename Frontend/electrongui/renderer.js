@@ -34,9 +34,21 @@ function runningOSSelect(operatingSystem) {
 
 }
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+function createDawnApp() {
+    projName = projNameLabel.firstChild.data;
+    OS = runningOS.firstChild.data;
+
+    data = {
+        "projName": projName,
+        "OS": OS
+    };
+    console.log(`Sent data!\n${data}`);
+
+    window.api.send("toMain", data);
+}
+
 function run() {
-    window.api.send("toMain", "some data");
+    //window.api.send("toMain", "some data");
     
     window.api.receive("fromMain", (data) => {
         console.log(data)
