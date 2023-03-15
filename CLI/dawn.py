@@ -45,7 +45,7 @@ def Create(val: str):
         urllib.request.urlretrieve("https://github.com/The-Holy-Church-of-Terry-Davis/DAWN/releases/download/2023-3-11.4/DAWN.exe", f"{dir}/DAWN.exe")
         print(f"{color.GREEN}[✔] Retrieved {DAWN}{color.GREEN}.exe{color.END}")
     else:
-        print(f"\n{color.BOLD}{color.RED}[X] *NIX is not available as of now, skipping backend download{color.END}\n")
+        print(f"\n{color.BOLD}{color.RED}[X] *NIX is not available as of now, skipping backend download. Build from source instead{color.END}\n")
 
     print(f"{color.CYAN}[-] Making JSON config file{color.END}")
     
@@ -87,14 +87,19 @@ def Create(val: str):
 
 
 parser = argparse.ArgumentParser()
+
 parser.add_argument("create", help="Creates a DAWN app")
-parser.add_argument("deploy", help="Deploys a docker container from a specified file")
+parser.add_argument("-d", "--deploy", action="store_true", help="Deploys a docker container from a specified file", required=False)
+parser.add_argument("-g", "--gui", action="store_true" , help="Launches the GUI version of create", required=False)
 args = parser.parse_args()
 
-if args.deploy:
+if args.gui:
+    print(f"{color.CYAN}[-] Launching {DAWN}{color.CYAN} GUI{color.END}.\n{color.RED}[X] Failed to launch! Not implemented yet!{color.END}")
+
+elif args.deploy:
     Deploy(args.deploy)
     print(f"{color.CYAN}[-] Deploying {DAWN}{color.CYAN} project, \"{args.create}\"{color.END}")
 
-if args.create:
+elif args.create:
     print(f"{color.CYAN}[-] Creating {DAWN}{color.CYAN} project, \"{args.create}\"{color.END}")
     Create(args.create)
