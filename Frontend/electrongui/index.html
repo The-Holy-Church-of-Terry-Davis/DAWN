@@ -6,37 +6,42 @@ Hello!
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css" type="text/css">
-    <title>DAWN GUI</title>
-  </head>
-  <body>
-    <div id="projNameContainer">
-      <h1 id="projName">MyDawnProject</h1>
-      <div id="projNameDiv">
-        <input type="text" placeholder="Project Name:" id="projNameTextInput" name="projNameTextInput" /><span><button id="projNameButton" onclick="updateProjNameLabel()">Submit</button></span>
-      </div>
-    </div>
-    <hr />
-    <div id="runningOSContainer">
-      <h3 id="runningOSLabel">OS to run on: <span id="runningOS">Windows</span></h3>
-      <span><button id="osWindowsButton" onclick="runningOSSelect('Windows');" data-selected="true">Windows</button><button id="osLinuxButton" onclick="runningOSSelect('Linux');" data-selected="false">Linux</button></span>
-    </div>
-    <div id="logContainer">
-      <h3 id="logLabel">Log:</h3>
-      <!--<input id="logArea" type="text" disabled="true" />-->
-      <object id="logArea" type="text/plain"
-          data="./test.txt">
-      </object>
-    </div>
-    <div id="createButtonContainer">
-      <button id="createButton">Create DAWN App</button>
-    </div>
 
-    <footer><strong>Node.js:</strong> <span id="node-version"></span> • <strong>Chromium:</strong> <span id="chrome-version"></span> • <strong>Electron:</strong> <span id="electron-version"></span></footer>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <title>DAWN GUI</title>
+</head>
 
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
-  </body>
+<body>
+  <div id="projNameContainer">
+    <h1 id="projName">MyDawnProject</h1>
+    <div id="projNameDiv">
+      <input type="text" placeholder="Project Name:" id="projNameTextInput" name="projNameTextInput" /><span><button
+          id="projNameButton" onclick="updateProjNameLabel()">Submit</button></span>
+    </div>
+  </div>
+  <hr />
+  <div id="runningOSContainer">
+    <h3 id="runningOSLabel">OS to run on: <span id="runningOS">Windows</span></h3>
+    <span><button id="osWindowsButton" onclick="runningOSSelect('Windows');"
+        data-selected="true">Windows</button><button id="osLinuxButton" onclick="runningOSSelect('Linux');"
+        data-selected="false">Linux</button></span>
+  </div>
+  <div id="logContainer">
+    <h3 id="logLabel">Log:</h3>
+    <!--<input id="logArea" type="text" disabled="true" />-->
+    <object id="logArea" type="text/plain" data="./test.txt">
+    </object>
+  </div>
+  <div id="createButtonContainer">
+    <button id="createButton">Create DAWN App</button>
+  </div>
+
+
+
+  <!-- You can also require other files to run in this process -->
+  <script src="./renderer.js"></script>
+</body>
+
 </html>
