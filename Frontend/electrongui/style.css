@@ -29,6 +29,7 @@ footer {
     width: 100%;
     margin: 0 auto;
     text-align: center;
+    font-size: small;
 }
 
 button {
@@ -53,10 +54,17 @@ hr {
     margin-bottom: 6%;
 }
 
+input[type=text]:focus {
+    outline: 0;
+}
+
 #projNameContainer {
-    padding: .5rem;
-    margin: 2%;
-    width: 90%;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-bottom: .5rem;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-bottom: 2%;
 }
 
 #projName {
@@ -119,6 +127,50 @@ hr {
 
 #runningOSContainer button:active {
     background-color: var(--bg-dark);
+}
+
+#logContainer {
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-bottom: .5rem;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-bottom: 1%;
+    width: 90%;
+    height: 100;
+}
+
+#logLabel {
+    line-height: 0;
+}
+
+#logContainer object {
+    width: 100%;
+    color: var(--text);
+    height: 8.5rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background-color: var(--bg-dark);
+}
+
+#createButtonContainer {
+    padding-left: .5rem;
+    padding-right: .5rem;
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 90%;
+    height: 100;
+}
+
+#createButton {
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text);
+    border: 1px solid var(--border);
+    background-color: var(--bg-light);
+    
+    width: 100%;
+    height: 3rem;
 }
 
 /*
