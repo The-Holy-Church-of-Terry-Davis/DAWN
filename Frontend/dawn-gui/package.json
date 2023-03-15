@@ -1,7 +1,6 @@
 {
-  "name": "electrongui",
+  "name": "dawn-gui",
   "version": "1.0.0",
-  "description": "",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,5 +20,6 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0"
-  }
+  },
+  "description": ""
 }
