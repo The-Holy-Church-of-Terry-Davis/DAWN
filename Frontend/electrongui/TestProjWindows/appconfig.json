@@ -1,0 +1,24 @@
+{
+    "Prefixes": [
+        "http://localhost:8080/"
+    ],
+    "RootDir": "./TestProjWindows/",
+    "Mappings": [
+        {
+            "request_path": "/",
+            "filename": "./TestProjWindows/index.html"
+        },
+        {
+            "request_path": "",
+            "filename": "./TestProjWindows/index.html"
+        },
+        {
+            "request_path": "/index",
+            "filename": "./TestProjWindows/index.html"
+        },
+        {
+            "request_path": "/home",
+            "filename": "./TestProjWindows/index.html"
+        }
+    ]
+}
