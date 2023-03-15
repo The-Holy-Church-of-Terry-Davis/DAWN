@@ -2,7 +2,7 @@ import urllib.request
 from pathlib import Path
 import argparse
 import os
-import docker
+import docker # $ sudo apt install python3-docker
 from platform import system
 import json
 
@@ -37,7 +37,7 @@ def Create(val: str):
     try:
         Path(dir).mkdir()
     except FileExistsError:
-        print(f"{color.BOLD}{color.RED}[!] Project, \"{val}\" already exists!{color.END}")
+        print(f"{color.BOLD}{color.RED}[X] Project, \"{val}\" already exists!{color.END}")
         return
 
     if system().lower() == "windows":
@@ -47,7 +47,7 @@ def Create(val: str):
     else:
         print(f"\n{color.BOLD}{color.RED}[X] *NIX is not available as of now, skipping backend download. Build from source instead{color.END}\n")
 
-    print(f"{color.CYAN}[-] Making JSON config file{color.END}")
+    print(f"{color.CYAN}[-] Making JSON appconfig file{color.END}")
     
     appConfigContent = {
         "Prefixes" : [ "http://localhost:8080/" ],

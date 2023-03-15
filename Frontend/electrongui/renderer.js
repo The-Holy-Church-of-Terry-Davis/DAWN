@@ -38,21 +38,24 @@ function createDawnApp() {
     projName = projNameLabel.firstChild.data;
     OS = runningOS.firstChild.data;
 
-    data = {
+    jason = {
         "projName": projName,
         "OS": OS
     };
-    console.log(`Sent data!\n${data}`);
+    console.log(projName);
+    console.log(OS);
+    console.log(`Sent data!\n${JSON.stringify(jason)}`);
 
-    window.api.send("toMain", data);
+    window.api.sendJson(JSON.stringify(jason));
+    alert(`Creating DAWN App, "${projName}"`);
 }
 
 function run() {
-    //window.api.send("toMain", "some data");
+    window.api.send("toMain", "some data");
     
     window.api.receive("fromMain", (data) => {
         console.log(data)
-        logArea.setAttribute('data', 'test.txt');
+        logArea.setAttribute('data', './dawngui.log');
     });
 }
 

@@ -5,6 +5,8 @@ const {
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
+
+
 contextBridge.exposeInMainWorld(
   "api", {
       send: (channel, data) => {
@@ -22,7 +24,16 @@ contextBridge.exposeInMainWorld(
               // Deliberately strip event as it includes `sender` 
               ipcRenderer.on(channel, (event, ...args) => func(...args));
           }
-      }
+      },
+      sendJson: (data, func) => {
+        console.log(`preload recieved data!`);
+        console.log(`Data: ${data}`);
+
+        ipcRenderer.send("sendJson", data);
+
+        console.log("sent data to main!");
+        //ipcRenderer.sendSync("sendJson", JSON.stringify(data));
+    }
   }
 );
 
