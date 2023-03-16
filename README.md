@@ -25,7 +25,7 @@ $ dotnet run # elevated privileges are needed
 $ cd ./DAWN/CLI
 $ python3 ./dawn.py MyProject
 $ cd ./MyProject
-$ ./DAWN.exe # if on windows, if you are on linux, you need to build from source in ./DAWN/Backend
+$ ./DAWN.exe # if on windows, if you are on linux, you need to build from source in `./DAWN/Backend`
 ```
 
 ## Documentation
