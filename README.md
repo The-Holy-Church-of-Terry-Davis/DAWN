@@ -12,6 +12,22 @@ Unknown if it requires `sudo` on Linux.
 
 **NOTICE:** ``DAWN.exe`` in the release is not the latest, this notice will go away when it is updated.
 
+## Simple, Quick Usage
+
+```sh
+# Nightly
+$ cd ./DAWN/Backend
+# The website files are located in `./TestApp`
+$ dotnet restore
+$ dotnet run # elevated privileges are needed
+
+# Stable
+$ cd ./DAWN/CLI
+$ python3 ./dawn.py MyProject
+$ cd ./MyProject
+$ ./DAWN.exe # if on windows, if you are on linux, you need to build from source in ./DAWN/Backend
+```
+
 ## Documentation
 
 <details>
