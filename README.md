@@ -1,10 +1,10 @@
 <img style="width:25%;" src="./Docs/logo.png" />
 
-# DAWN (Dotnet and JS Web Network)
+# DAWN (Dotnet and JS/PY Web Network)
 
-This is a webserver project written in JS and C#. The
+This is a webserver project written in JS/PY and C#. The
 webserver itself is written entirely in C#, however, the
-frontend of the webserver is written in JS. JS also
+frontend of the webserver is written in JS/PY. JS/PY also
 will help take care of deploying new DAWN applications.
 
 DAWN must be ran as administrator on Windows.
