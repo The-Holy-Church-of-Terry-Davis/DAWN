@@ -2,6 +2,11 @@ using CSL.Encryption;
 
 namespace Dawn.Authentication;
 
+/*
+    This classes funcitonality
+    is not yet implemented!
+*/
+
 public interface IAuthenticationBearer
 {
     public byte[]? Key { get; set; }
