@@ -1,8 +1,8 @@
-# Config
+# Config (`appconfig.json`)
 
 The config consists of a few key value pairs
 that are imported by the webserver. The first
-of these is the prrefix array. This is an array
+of these is the prefix array. This is an array
 of prefixes that the webserver will use when
 accepting incoming connections.
 
@@ -39,3 +39,5 @@ declare what urls lead to what files.
     ]
 }
 ```
+
+The `RootDir` and `Mappings` are automatically tailored to the name of your DAWN project.

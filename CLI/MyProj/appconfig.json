@@ -1,0 +1,24 @@
+{
+  "Prefixes": [
+    "http://localhost:8080/"
+  ],
+  "RootDir": "./MyProj/",
+  "Mappings": [
+    {
+      "request_path": "/",
+      "filename": "./MyProj/index.html"
+    },
+    {
+      "request_path": "",
+      "filename": "./MyProj/index.html"
+    },
+    {
+      "request_path": "/index",
+      "filename": "./MyProj/index.html"
+    },
+    {
+      "request_path": "/home",
+      "filename": "./MyProj/index.html"
+    }
+  ]
+}
