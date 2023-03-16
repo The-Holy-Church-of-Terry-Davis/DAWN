@@ -1,3 +1,5 @@
+<img style="width:15%;" src="./Docs/logo.png" />
+
 # DAWN (Dotnet and JS Web Network)
 
 This is a webserver project written in JS and C#. The
