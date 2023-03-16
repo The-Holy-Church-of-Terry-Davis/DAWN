@@ -1,4 +1,4 @@
-<img style="width:15%;" src="./Docs/logo.png" />
+<img style="width:25%;" src="./Docs/logo.png" />
 
 # DAWN (Dotnet and JS Web Network)
 
