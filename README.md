@@ -8,7 +8,7 @@ frontend of the webserver is written in JS/PY. JS/PY also
 will help take care of deploying new DAWN applications.
 
 DAWN must be ran as administrator on Windows.
-Unknown if it requires `sudo` on Linux.
+DAWN does not require `sudo` on Linux.
 
 **NOTICE:** ``DAWN.exe`` in the release is not the latest, this notice will go away when it is updated.
 
